@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+<asmv3:application xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
+	<asmv3:windowsSettings xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
+		<!-- DSS-682: Win 8.1 has a new feature to allow different DPI scaling settings for different monitors.
+			In this case, we need to set applicatin's DPI mode to "per-Monitor", this allows application to handle DPI scaling on different monitors properly.
+			We need to set below value to "True/PM", so that on pre 8.1 OS, it will be treated as "True" (DPI-aware).
+			And on Win 8.1+, it will be treated as "true" (DPI-aware) + "PM" (Per-Monitor) -->
+		<dpiAware>True/PM</dpiAware>
+
+		<!-- As of win10 v1607 dpiAwareness overwrites dpiAware
+			https://msdn.microsoft.com/en-us/library/windows/desktop/aa374191(v=vs.85).aspx
+			system, permonitor, permonitorv2(only for win10 v1703+)
+			we can list these in sequence so in v1703+ "PerMonitorV2, System" would enable per monitor aware but older clients would be system aware
+		-->
+		<dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">
+			PerMonitorV2, PerMonitor, System
+		</dpiAwareness>
+	</asmv3:windowsSettings>
+</asmv3:application>
+</assembly>

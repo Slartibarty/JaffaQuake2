@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\ASM">
+      <UniqueIdentifier>{05195f41-b8db-449a-8678-eae1694cdae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ASM">
+      <UniqueIdentifier>{a0e0b07e-2dda-4b94-833c-2eb1324ac577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Common">
+      <UniqueIdentifier>{f90232ac-c218-487c-8e51-c25f4fa39fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{d11ba4de-d1d5-4965-ac9e-5b1fcd3100d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Win32">
+      <UniqueIdentifier>{3d558327-9c7b-4fb4-a6d1-f3a8214b7176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Win32">
+      <UniqueIdentifier>{b7b15ad0-ce48-46f5-bf38-6dcfe120bfbc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="r_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_misc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_model.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_part.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_poly.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_polyse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_rast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_scan.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_sprite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_surf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_aclip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_alias.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_bsp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_draw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_edge.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_image.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="r_light.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\win32\rw_dib.c">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\win32\rw_imp.c">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\win32\rw_ddraw.c">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\win32\q_shwin.c">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\common_win.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\common.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="block16.inc">
+      <Filter>Header Files\ASM</Filter>
+    </None>
+    <None Include="d_if.inc">
+      <Filter>Header Files\ASM</Filter>
+    </None>
+    <None Include="qasm.inc">
+      <Filter>Header Files\ASM</Filter>
+    </None>
+    <None Include="block8.inc">
+      <Filter>Header Files\ASM</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="asm_draw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="d_ifacea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="r_local.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="r_model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rand1k.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="adivtab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="anorms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\win32\rw_win.h">
+      <Filter>Header Files\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\common.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qfiles.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\refresh.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="r_varsa.asm">
+      <Filter>Source Files\ASM</Filter>
+    </MASM>
+    <MASM Include="r_surf8.asm">
+      <Filter>Source Files\ASM</Filter>
+    </MASM>
+    <MASM Include="r_spr8.asm">
+      <Filter>Source Files\ASM</Filter>
+    </MASM>
+    <MASM Include="r_scana.asm">
+      <Filter>Source Files\ASM</Filter>
+    </MASM>
+    <MASM Include="r_polysa.asm">
+      <Filter>Source Files\ASM</Filter>
+    </MASM>
+    <MASM Include="r_edgea.asm">
+      <Filter>Source Files\ASM</Filter>
+    </MASM>
+    <MASM Include="r_drawa.asm">
+      <Filter>Source Files\ASM</Filter>
+    </MASM>
+    <MASM Include="r_draw16.asm">
+      <Filter>Source Files\ASM</Filter>
+    </MASM>
+    <MASM Include="r_aclipa.asm">
+      <Filter>Source Files\ASM</Filter>
+    </MASM>
+  </ItemGroup>
+</Project>

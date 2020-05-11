@@ -1,0 +1,3 @@
+window sucks
+
+renderer is initialised, then closed immediately after and re-initialised for no reason, find out why, vid_ref gets modified somewhere, I dummied out some code in files.c to no avail

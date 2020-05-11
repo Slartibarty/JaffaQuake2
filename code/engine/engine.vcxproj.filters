@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Client">
+      <UniqueIdentifier>{bddcc8a4-c4f7-4775-aeae-ebd9bc1ac41d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server">
+      <UniqueIdentifier>{efb32043-f8e9-4ee2-8213-9f9d64f9efb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shared">
+      <UniqueIdentifier>{02d15cab-e0e1-4df1-bc77-79435e5881f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Client">
+      <UniqueIdentifier>{2a632c38-6ddc-4cd7-89a0-16b345b73b6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server">
+      <UniqueIdentifier>{93cc9ec3-5981-4752-9f8f-58b4b18faacf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shared">
+      <UniqueIdentifier>{541a41ab-4e08-4993-b844-6ff2a7e17de0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Client\Win32">
+      <UniqueIdentifier>{a0e30e11-ab28-43de-9ab6-7d60a5845aad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{78863430-45dd-42ca-b50b-ae330e55fb1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Common">
+      <UniqueIdentifier>{a1467eac-9b46-41ad-aa43-1a65b2d4c43b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{d8f16cd6-3a56-45d4-9973-47620ace3b4c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="client\cdaudio.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="client\client.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="client\console.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="client\input.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="client\qmenu.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="client\screen.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="client\snd_local.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="client\sound.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="client\video.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="client\keys.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="server\server.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\engine.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="winres\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\common.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qfiles.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\refresh.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\buildinfo.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\game.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\filesystem_public.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\filesystem_private.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="client\cl_main.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cl_newfx.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cl_parse.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cl_pred.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cl_scrn.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cl_tent.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cl_view.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\console.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\menu.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\qmenu.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\snd_dma.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\snd_mem.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\snd_mix.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cl_cin.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cl_ents.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cl_fx.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cl_input.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cl_inv.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="client\keys.c">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="server\sv_init.c">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="server\sv_main.c">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="server\sv_send.c">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="server\sv_user.c">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="server\sv_world.c">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="server\sv_ccmds.c">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="server\sv_ents.c">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="server\sv_game.c">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\engine.c">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\md4.c">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\net_chan.c">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\pmove.c">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\cmd.c">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\cmodel.c">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\crc.c">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\cvar.c">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="client\sys_win.c">
+      <Filter>Source Files\Client\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="client\snd_win.c">
+      <Filter>Source Files\Client\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="client\vid_win.c">
+      <Filter>Source Files\Client\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="client\vid_menu_win.c">
+      <Filter>Source Files\Client\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="client\in_win.c">
+      <Filter>Source Files\Client\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\common.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\common_win.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="client\cd_win.c">
+      <Filter>Source Files\Client\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\net_win.c">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\conproc_win.c">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\filesystem_shared.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\filesystem_win.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\game\m_flash.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="client\anorms.inl">
+      <Filter>Header Files\Client</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="winres\dpiaware.manifest">
+      <Filter>Resource Files</Filter>
+    </Manifest>
+    <Manifest Include="winres\jaffaquake.manifest">
+      <Filter>Resource Files</Filter>
+    </Manifest>
+    <Manifest Include="winres\compat.manifest">
+      <Filter>Resource Files</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="winres\jaffaquake.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="winres\network.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

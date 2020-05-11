@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\buildinfo.h" />
+    <ClInclude Include="..\common\common.h" />
+    <ClInclude Include="..\common\game.h" />
+    <ClInclude Include="..\common\qfiles.h" />
+    <ClInclude Include="..\common\refresh.h" />
+    <ClInclude Include="client\cdaudio.h" />
+    <ClInclude Include="client\client.h" />
+    <ClInclude Include="client\keys.h" />
+    <ClInclude Include="client\console.h" />
+    <ClInclude Include="client\input.h" />
+    <ClInclude Include="client\qmenu.h" />
+    <ClInclude Include="client\screen.h" />
+    <ClInclude Include="client\snd_local.h" />
+    <ClInclude Include="client\sound.h" />
+    <ClInclude Include="client\video.h" />
+    <ClInclude Include="server\server.h" />
+    <ClInclude Include="shared\engine.h" />
+    <ClInclude Include="shared\filesystem_private.h" />
+    <ClInclude Include="shared\filesystem_public.h" />
+    <ClInclude Include="winres\resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\common.c" />
+    <ClCompile Include="..\common\common_win.c" />
+    <ClCompile Include="..\game\m_flash.cpp" />
+    <ClCompile Include="client\cd_win.c" />
+    <ClCompile Include="client\cl_cin.c" />
+    <ClCompile Include="client\cl_ents.c" />
+    <ClCompile Include="client\cl_fx.c" />
+    <ClCompile Include="client\cl_input.c" />
+    <ClCompile Include="client\cl_inv.c" />
+    <ClCompile Include="client\in_win.c" />
+    <ClCompile Include="client\keys.c" />
+    <ClCompile Include="client\cl_main.c" />
+    <ClCompile Include="client\cl_newfx.c" />
+    <ClCompile Include="client\cl_parse.c" />
+    <ClCompile Include="client\cl_pred.c" />
+    <ClCompile Include="client\cl_scrn.c" />
+    <ClCompile Include="client\cl_tent.c" />
+    <ClCompile Include="client\cl_view.c" />
+    <ClCompile Include="client\console.c" />
+    <ClCompile Include="client\menu.c" />
+    <ClCompile Include="client\qmenu.c" />
+    <ClCompile Include="client\snd_dma.c" />
+    <ClCompile Include="client\snd_mem.c" />
+    <ClCompile Include="client\snd_mix.c" />
+    <ClCompile Include="client\snd_win.c" />
+    <ClCompile Include="client\sys_win.c" />
+    <ClCompile Include="client\vid_menu_win.c" />
+    <ClCompile Include="client\vid_win.c" />
+    <ClCompile Include="server\sv_ccmds.c" />
+    <ClCompile Include="server\sv_ents.c" />
+    <ClCompile Include="server\sv_game.c" />
+    <ClCompile Include="server\sv_init.c" />
+    <ClCompile Include="server\sv_main.c" />
+    <ClCompile Include="server\sv_send.c" />
+    <ClCompile Include="server\sv_user.c" />
+    <ClCompile Include="server\sv_world.c" />
+    <ClCompile Include="shared\cmd.c" />
+    <ClCompile Include="shared\cmodel.c" />
+    <ClCompile Include="shared\conproc_win.c" />
+    <ClCompile Include="shared\crc.c" />
+    <ClCompile Include="shared\cvar.c" />
+    <ClCompile Include="shared\engine.c" />
+    <ClCompile Include="shared\filesystem_shared.cpp" />
+    <ClCompile Include="shared\filesystem_win.cpp" />
+    <ClCompile Include="shared\md4.c" />
+    <ClCompile Include="shared\net_chan.c" />
+    <ClCompile Include="shared\net_win.c" />
+    <ClCompile Include="shared\pmove.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="client\anorms.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="winres\compat.manifest" />
+    <Manifest Include="winres\dpiaware.manifest" />
+    <Manifest Include="winres\jaffaquake.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="winres\jaffaquake.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="winres\network.ico" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{bcf4ca92-11c9-4daa-91dc-75e587e4d9f3}</ProjectGuid>
+    <RootNamespace>engine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Engine</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\common.props" />
+    <Import Project="..\debug.props" />
+    <Import Project="engine.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\common.props" />
+    <Import Project="..\debug.props" />
+    <Import Project="engine.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\common.props" />
+    <Import Project="..\release.props" />
+    <Import Project="engine.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\common.props" />
+    <Import Project="..\release.props" />
+    <Import Project="engine.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
