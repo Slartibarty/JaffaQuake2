@@ -785,9 +785,11 @@ void PM_CatagorizePosition (void)
 			}
 		}
 
-#if 0
-		if (trace.fraction < 1.0 && trace.ent && pml.velocity[2] < 0)
-			pml.velocity[2] = 0;
+// amw 4.27.98 - obviously the id guys were playing with this.. this eliminates the
+// last of the gib on angled surface bugs...
+#if 1
+		if (trace.fraction < 1.0f && trace.ent && pml.velocity[2] < 0.0f)
+			pml.velocity[2] = 0.0f;
 #endif
 
 		if (pm->numtouch < MAXTOUCH && trace.ent)

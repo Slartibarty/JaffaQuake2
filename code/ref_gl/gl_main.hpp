@@ -1,7 +1,7 @@
 /*
 =============================================================
 
-Most of the shit in here should be in gl_misc
+Most of the stuff in here should be in gl_misc
 
 =============================================================
 */
