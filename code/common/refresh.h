@@ -211,6 +211,17 @@ typedef struct
 	void	(*Con_Print) (int print_level, const char *msg);
 	void	(*Con_Printf) (int print_level, const char *fmt, ...);
 
+	// Filesystem functions
+	void	(*FS_Mkdir) (const char* path);
+
+	int		(*FS_OpenFile) (const char* filename, fshandle_t* file);
+	void	(*FS_OpenFileWrite) (const char* filename, fshandle_t* file, fswritemode_t mode);
+
+	int		(*FS_Read) (void* buffer, int len, fshandle_t f);
+	int		(*FS_Write) (const void* buffer, int len, fshandle_t f);
+
+	void	(*FS_CloseFile) (fshandle_t f);
+
 	// files will be memory mapped read only
 	// the returned buffer may be part of a larger pak file,
 	// or a discrete file from anywhere in the quake search path
@@ -218,10 +229,6 @@ typedef struct
 	// NULL can be passed for buf to just determine existance
 	int		(*FS_LoadFile) (const char *name, void **buf);
 	void	(*FS_FreeFile) (void *buf);
-
-	// gamedir will be the current directory that generated
-	// files should be stored to, ie: "f:\quake\id1"
-	const char	*(*FS_Gamedir) (void);
 
 	cvar_t	*(*Cvar_Get) ( const char *name, const char *value, int flags );
 	cvar_t	*(*Cvar_Set) ( const char *name, const char *value );

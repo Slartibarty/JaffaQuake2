@@ -410,9 +410,16 @@ qboolean VID_LoadRefresh( const char *name )
 	ri.Con_Printf = VID_Printf;
 	ri.Sys_Error = Com_Error;
 	ri.Sys_Errorf = Com_Errorf;
+
+	ri.FS_Mkdir = FS_Mkdir;
+	ri.FS_OpenFile = FS_OpenFile;
+	ri.FS_OpenFileWrite = FS_OpenFileWrite;
+	ri.FS_Read = FS_Read;
+	ri.FS_Write = FS_Write;
+	ri.FS_CloseFile = FS_CloseFile;
 	ri.FS_LoadFile = FS_LoadFile;
 	ri.FS_FreeFile = FS_FreeFile;
-	ri.FS_Gamedir = FS_Gamedir;
+
 	ri.Cvar_Get = Cvar_Get;
 	ri.Cvar_Set = Cvar_Set;
 	ri.Cvar_SetValue = Cvar_SetValue;

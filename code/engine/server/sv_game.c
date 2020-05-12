@@ -350,7 +350,6 @@ void SV_InitGameProgs (void)
 	if (ge)
 		SV_ShutdownGameProgs ();
 
-
 	// load a new game dll
 	import.multicast = SV_Multicast;
 	import.unicast = PF_Unicast;
@@ -365,6 +364,12 @@ void SV_InitGameProgs (void)
 	import.centerprintf = PF_centerprintf;
 	import.error = PF_error;
 	import.errorf = PF_errorf;
+
+	import.FS_OpenFile = FS_OpenFile;
+	import.FS_OpenFileWrite = FS_OpenFileWrite;
+	import.FS_Read = FS_Read;
+	import.FS_Write = FS_Write;
+	import.FS_CloseFile = FS_CloseFile;
 
 	import.linkentity = SV_LinkEdict;
 	import.unlinkentity = SV_UnlinkEdict;

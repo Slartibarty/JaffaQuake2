@@ -237,11 +237,10 @@ SV_WriteIP_f
 */
 void SVCmd_WriteIP_f (void)
 {
-	FILE	*f;
-	char	name[MAX_OSPATH];
-	byte	b[4];
-	int		i;
-	cvar_t	*game;
+	fshandle_t	f;
+	char		name[MAX_OSPATH];
+	byte		b[4];
+	cvar_t		*game;
 
 	game = gi.cvar("game", "", 0);
 
@@ -252,22 +251,22 @@ void SVCmd_WriteIP_f (void)
 
 	gi.cprintf (NULL, PRINT_HIGH, "Writing %s.\n", name);
 
-	f = fopen (name, "wb");
+	gi.FS_OpenFileWrite(name, &f, fs_overwrite);
 	if (!f)
 	{
 		gi.cprintf (NULL, PRINT_HIGH, "Couldn't open %s\n", name);
 		return;
 	}
 	
-	fprintf(f, "set filterban %d\n", (int)filterban->value);
+	gi.FS_Write(va("set filterban %d\n", (int)filterban->value), -1, f);
 
-	for (i=0 ; i<numipfilters ; i++)
+	for (int i=0 ; i<numipfilters ; i++)
 	{
 		*(unsigned *)b = ipfilters[i].compare;
-		fprintf (f, "sv addip %i.%i.%i.%i\n", b[0], b[1], b[2], b[3]);
+		gi.FS_Write(va("sv addip %i.%i.%i.%i\n", b[0], b[1], b[2], b[3]), -1, f);
 	}
 	
-	fclose (f);
+	gi.FS_CloseFile (f);
 }
 
 /*

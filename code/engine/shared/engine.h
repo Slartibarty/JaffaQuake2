@@ -30,6 +30,7 @@ extern "C" {
 #endif
 
 #define	BASEDIRNAME	"baseq2"
+#define LOGFILENAME "qconsole.log"
 
 //============================================================================
 
@@ -124,7 +125,6 @@ void CRC_Init(unsigned short *crcvalue);
 void CRC_ProcessByte(unsigned short *crcvalue, byte data);
 unsigned short CRC_Value(unsigned short crcvalue);
 unsigned short CRC_Block (byte *start, int count);
-
 
 
 /*
@@ -289,6 +289,15 @@ enum clc_ops_e
 #define	U_SOUND		(1<<26)
 #define	U_SOLID		(1<<27)
 
+/*
+==============================================================
+
+FILESYSTEM
+
+==============================================================
+*/
+
+#include "filesystem_public.h"
 
 /*
 ==============================================================
@@ -456,7 +465,7 @@ qboolean Cvar_Command (void);
 // command.  Returns true if the command was a variable reference that
 // was handled. (print or change)
 
-void 	Cvar_WriteVariables (const char *path);
+void 	Cvar_WriteVariables (fshandle_t f);
 // appends lines containing "set variable value" for all variables
 // with the archive flag set to true.
 
@@ -567,16 +576,6 @@ void Netchan_OutOfBandPrint (int net_socket, netadr_t adr, char *format, ...);
 qboolean Netchan_Process (netchan_t *chan, sizebuf_t *msg);
 
 qboolean Netchan_CanReliable (netchan_t *chan);
-
-/*
-==============================================================
-
-FILESYSTEM
-
-==============================================================
-*/
-
-#include "filesystem_public.h"
 
 /*
 ==============================================================
@@ -692,7 +691,7 @@ extern	cvar_t	*dedicated;
 extern	cvar_t	*host_speeds;
 extern	cvar_t	*log_stats;
 
-extern	FILE *log_stats_file;
+extern	fshandle_t	log_stats_file;
 
 // host_speeds times
 extern	int		time_before_game;

@@ -426,22 +426,20 @@ Appends lines containing "set variable value" for all variables
 with the archive flag set to true.
 ============
 */
-void Cvar_WriteVariables (const char *path)
+void Cvar_WriteVariables (fshandle_t f)
 {
 	cvar_t	*var;
 	char	buffer[1024];
-	FILE	*f;
+	int		written;
 
-	f = fopen (path, "a");
 	for (var = cvar_vars ; var ; var = var->next)
 	{
 		if (var->flags & CVAR_ARCHIVE)
 		{
-			Com_sprintf (buffer, sizeof(buffer), "set %s \"%s\"\n", var->name, var->string);
-			fprintf (f, "%s", buffer);
+			written = Com_sprintf (buffer, sizeof(buffer), "set %s \"%s\"\n", var->name, var->string);
+			FS_Write(buffer, written, f);
 		}
 	}
-	fclose (f);
 }
 
 /*

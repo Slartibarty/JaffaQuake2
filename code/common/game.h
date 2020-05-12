@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
-#define	GAME_API_VERSION	3
+#define	GAME_API_VERSION	4
 
 // edict->svflags
 
@@ -123,6 +123,15 @@ typedef struct
 
 	void	(*error) (const char *msg);
 	void	(*errorf) (const char *fmt, ...);
+
+	// Filesystem functions
+	int		(*FS_OpenFile) (const char* filename, fshandle_t* file);
+	void	(*FS_OpenFileWrite) (const char* filename, fshandle_t* file, fswritemode_t mode);
+
+	int		(*FS_Read) (void* buffer, int len, fshandle_t f);
+	int		(*FS_Write) (const void* buffer, int len, fshandle_t f);
+
+	void	(*FS_CloseFile) (fshandle_t f);
 
 	// the *index functions create configstrings and some internal server state
 	int		(*modelindex) (const char *name);

@@ -142,26 +142,26 @@ Save the console contents out to a file
 */
 void Con_Dump_f (void)
 {
-	int		l, x;
-	char	*line;
-	FILE	*f;
-	char	buffer[1024];
-	char	name[MAX_OSPATH];
+	int			l, x;
+	char		*line;
+	fshandle_t	f;
+	char		buffer[1024];
+	char		name[MAX_OSPATH];
 
 	if (Cmd_Argc() != 2)
 	{
-		Com_Printf ("usage: condump <filename>\n");
+		Com_Print ("usage: condump <filename>\n");
 		return;
 	}
 
-	Com_sprintf (name, sizeof(name), "%s/%s.txt", FS_Gamedir(), Cmd_Argv(1));
+	Com_sprintf (name, sizeof(name), "%s.txt", Cmd_Argv(1));
 
 	Com_Printf ("Dumped console text to %s.\n", name);
 	FS_CreatePath (name);
-	f = fopen (name, "w");
+	FS_OpenFileWrite(name, &f, fs_overwrite);
 	if (!f)
 	{
-		Com_Printf ("ERROR: couldn't open.\n");
+		Com_Printf ("ERROR: couldn't open %s.\n", name);
 		return;
 	}
 
@@ -192,10 +192,10 @@ void Con_Dump_f (void)
 		for (x=0; buffer[x]; x++)
 			buffer[x] &= 0x7f;
 
-		fprintf (f, "%s\n", buffer);
+		FS_Write(va("%s\n", buffer), -1, f);
 	}
 
-	fclose (f);
+	FS_CloseFile (f);
 }
 
 						

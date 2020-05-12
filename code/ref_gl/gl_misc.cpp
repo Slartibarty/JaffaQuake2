@@ -89,29 +89,26 @@ Captures a screenshot
 void GL_ScreenShot_f (void) 
 {
 	byte		*buffer;
-	char		picname[80]; 
-	char		checkname[MAX_OSPATH];
-	int			i, c, temp;
-	FILE		*f;
+	char		picname[80]{"quake00.tga"};
+	char		checkname[MAX_OSPATH]{"scrnshot"};
+	fshandle_t	f;
 
 	// create the scrnshots directory if it doesn't exist
-	Com_sprintf (checkname, sizeof(checkname), "%s/scrnshot", ri.FS_Gamedir());
-	Sys_Mkdir (checkname);
+	ri.FS_Mkdir (checkname);
 
 	//
 	// find a file name to save it to 
 	//
-	strcpy(picname,"quake00.tga");
-
+	int i;
 	for (i=0 ; i<=99 ; i++) 
 	{ 
 		picname[5] = i/10 + '0'; 
 		picname[6] = i%10 + '0'; 
-		Com_sprintf (checkname, sizeof(checkname), "%s/scrnshot/%s", ri.FS_Gamedir(), picname);
-		f = fopen (checkname, "rb");
+		Com_sprintf (checkname, sizeof(checkname), "scrnshot/%s", picname);
+		ri.FS_OpenFile(checkname, &f);
 		if (!f)
 			break;	// file doesn't exist
-		fclose (f);
+		ri.FS_CloseFile (f);
 	} 
 	if (i==100) 
 	{
@@ -132,7 +129,8 @@ void GL_ScreenShot_f (void)
 	glReadPixels (0, 0, r_newrefdef.width, r_newrefdef.height, GL_RGB, GL_UNSIGNED_BYTE, buffer+18 );
 
 	// swap rgb to bgr
-	c = 18+ r_newrefdef.width*r_newrefdef.height*3;
+	int c = 18+ r_newrefdef.width*r_newrefdef.height*3;
+	int temp;
 	for (i=18 ; i<c ; i+=3)
 	{
 		temp = buffer[i];
@@ -140,9 +138,9 @@ void GL_ScreenShot_f (void)
 		buffer[i+2] = temp;
 	}
 
-	f = fopen (checkname, "wb");
-	fwrite (buffer, 1, c, f);
-	fclose (f);
+	ri.FS_OpenFileWrite(checkname, &f, fs_overwrite);
+	ri.FS_Write(buffer, c, f);
+	ri.FS_CloseFile(f);
 
 	free (buffer);
 	ri.Con_Printf (PRINT_ALL, "Wrote %s\n", picname);

@@ -1710,7 +1710,7 @@ Writes the portal state to a savegame file
 */
 void	CM_WritePortalState (fshandle_t f)
 {
-	fwrite (portalopen, sizeof(portalopen), 1, f);
+	FS_Write(portalopen, sizeof(portalopen), f);
 }
 
 /*

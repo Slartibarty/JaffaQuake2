@@ -117,8 +117,7 @@ SV_CheckForSavegame
 void SV_CheckForSavegame (void)
 {
 	char		name[MAX_OSPATH];
-	FILE		*f;
-	int			i;
+	fshandle_t	f;
 
 	if (sv_noreload->value)
 		return;
@@ -126,12 +125,12 @@ void SV_CheckForSavegame (void)
 	if (Cvar_VariableValue ("deathmatch"))
 		return;
 
-	Com_sprintf (name, sizeof(name), "%s/save/current/%s.sav", FS_Gamedir(), sv.name);
-	f = fopen (name, "rb");
+	Com_sprintf (name, sizeof(name), "save/current/%s.sav", sv.name);
+	FS_OpenFile (name, &f);
 	if (!f)
 		return;		// no savegame
 
-	fclose (f);
+	FS_CloseFile (f);
 
 	SV_ClearWorld ();
 
@@ -149,7 +148,7 @@ void SV_CheckForSavegame (void)
 
 		previousState = sv.state;				// PGM
 		sv.state = ss_loading;					// PGM
-		for (i=0 ; i<100 ; i++)
+		for (int i=0 ; i<100 ; i++)
 			ge->RunFrame ();
 
 		sv.state = previousState;				// PGM
@@ -276,7 +275,7 @@ void SV_SpawnServer (char *server, char *spawnpoint, server_state_t serverstate,
 	// set serverinfo variable
 	Cvar_FullSet ("mapname", sv.name, CVAR_SERVERINFO | CVAR_NOSET);
 
-	Com_Printf ("-------------------------------------\n");
+	Com_Print ("-------------------------------------\n");
 }
 
 /*

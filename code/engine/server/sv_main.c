@@ -1052,7 +1052,7 @@ void SV_Shutdown (const char *finalmsg, qboolean reconnect)
 	if (svs.client_entities)
 		Z_Free (svs.client_entities);
 	if (svs.demofile)
-		fclose (svs.demofile);
+		FS_CloseFile(svs.demofile);
 	memset (&svs, 0, sizeof(svs));
 }
 

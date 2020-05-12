@@ -34,7 +34,7 @@ int		realtime;
 jmp_buf abortframe;		// an ERR_DROP occured, exit the entire frame
 
 
-FILE	*log_stats_file;
+fshandle_t	log_stats_file;
 
 cvar_t	*host_speeds;
 cvar_t	*log_stats;
@@ -45,7 +45,7 @@ cvar_t	*logfile_active;	// 1 = buffer log, 2 = flush after each print
 cvar_t	*showtrace;
 cvar_t	*dedicated;
 
-FILE	*logfile;
+fshandle_t	logfile;
 
 int			server_state;
 
@@ -119,20 +119,17 @@ void Com_Print(const char* msg)
 	// logfile
 	if (logfile_active && logfile_active->value)
 	{
-		char name[MAX_QPATH];
-
 		if (!logfile)
 		{
-			Com_sprintf(name, sizeof(name), "%s/qconsole.log", FS_Gamedir());
 			if (logfile_active->value > 2)
-				logfile = fopen(name, "a");
+				FS_OpenFileWrite(LOGFILENAME, logfile, fs_append);
 			else
-				logfile = fopen(name, "w");
+				FS_OpenFileWrite(LOGFILENAME, logfile, fs_overwrite);
 		}
 		if (logfile)
-			fprintf(logfile, "%s", msg);
-		if (logfile_active->value > 1)
-			fflush(logfile);		// force it to save every time
+			FS_Write(msg, (int)strlen(msg), logfile);
+	//	if (logfile_active->value > 1)
+	//		fflush(logfile);		// force it to save every time
 	}
 }
 
@@ -224,7 +221,7 @@ void Com_Error (int code, const char *msg)
 
 	if (logfile)
 	{
-		fclose (logfile);
+		FS_CloseFile (logfile);
 		logfile = NULL;
 	}
 
@@ -265,7 +262,7 @@ NORETURN void Com_Quit (void)
 
 	if (logfile)
 	{
-		fclose (logfile);
+		FS_CloseFile (logfile);
 		logfile = NULL;
 	}
 
@@ -1479,18 +1476,18 @@ void Engine_Frame (int msec)
 		{
 			if ( log_stats_file )
 			{
-				fclose( log_stats_file );
+				FS_CloseFile( log_stats_file );
 				log_stats_file = 0;
 			}
-			log_stats_file = fopen( "stats.log", "w" );
+			FS_OpenFileWrite("stats.log", log_stats_file, fs_overwrite);
 			if ( log_stats_file )
-				fprintf( log_stats_file, "entities,dlights,parts,frame time\n" );
+				FS_Write("entities,dlights,parts,frame time\n", -1, log_stats_file);
 		}
 		else
 		{
 			if ( log_stats_file )
 			{
-				fclose( log_stats_file );
+				FS_CloseFile( log_stats_file );
 				log_stats_file = 0;
 			}
 		}

@@ -68,8 +68,8 @@ to start a download from the server.
 */
 qboolean	CL_CheckOrDownloadFile (const char *filename)
 {
-	FILE *fp;
-	char	name[MAX_OSPATH];
+	fshandle_t	fp;
+	char		name[MAX_OSPATH];
 
 	if (strstr (filename, ".."))
 	{
@@ -97,11 +97,11 @@ qboolean	CL_CheckOrDownloadFile (const char *filename)
 
 //	FS_CreatePath (name);
 
-	fp = fopen (name, "r+b");
-	if (fp) { // it exists
+	FS_OpenFileWrite(name, &fp, fs_append);
+	if (fp)
+	{	// it exists
 		int len;
-		fseek(fp, 0, SEEK_END);
-		len = ftell(fp);
+		len = FS_FileLength(fp);
 
 		cls.download = fp;
 
@@ -212,7 +212,7 @@ void CL_ParseDownload (void)
 		if (cls.download)
 		{
 			// if here, we tried to resume a file but the server said no
-			fclose (cls.download);
+			FS_CloseFile(cls.download);
 			cls.download = NULL;
 		}
 		CL_RequestNextDownload ();
@@ -226,7 +226,7 @@ void CL_ParseDownload (void)
 
 		FS_CreatePath (name);
 
-		cls.download = fopen (name, "wb");
+		FS_OpenFileWrite(name, &cls.download, fs_overwrite);
 		if (!cls.download)
 		{
 			net_message.readcount += size;
@@ -236,7 +236,7 @@ void CL_ParseDownload (void)
 		}
 	}
 
-	fwrite (net_message.data + net_message.readcount, 1, size, cls.download);
+	FS_Write(net_message.data + net_message.readcount, size, cls.download);
 	net_message.readcount += size;
 
 	if (percent != 100)
@@ -263,7 +263,7 @@ void CL_ParseDownload (void)
 
 //		Com_Printf ("100%%\n");
 
-		fclose (cls.download);
+		FS_CloseFile (cls.download);
 
 		// rename the temp file to it's final name
 		CL_DownloadFileName(oldn, sizeof(oldn), cls.downloadtempname);
@@ -715,7 +715,7 @@ void CL_ParseServerMessage (void)
 			Com_Printf ("Server disconnected, reconnecting\n");
 			if (cls.download) {
 				//ZOID, close download
-				fclose (cls.download);
+				FS_CloseFile(cls.download);
 				cls.download = NULL;
 			}
 			cls.state = ca_connecting;

@@ -51,11 +51,6 @@ int Sys_Milliseconds (void)
 	return (curtime = (currentTime.QuadPart - startTime.QuadPart) * timeToMS);
 }
 
-void Sys_Mkdir (const char *path)
-{
-	CreateDirectoryA (path, NULL);
-}
-
 //===============================================================================
 
 static char		findbase[MAX_OSPATH];

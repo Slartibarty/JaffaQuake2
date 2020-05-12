@@ -1974,7 +1974,7 @@ void Create_Savestrings (void)
 
 	for (i=0 ; i<MAX_SAVEGAMES ; i++)
 	{
-		Com_sprintf (name, sizeof(name), "%s/save/save%i/server.ssv", FS_Gamedir(), i);
+		Com_sprintf (name, sizeof(name), "save/save%i/server.ssv", i);
 		FS_OpenFile (name, &f);
 		if (!f)
 		{

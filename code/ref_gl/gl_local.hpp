@@ -19,6 +19,7 @@ OpenGL refresh precompiled header file
 #include "GL/glew.h"
 
 // Our stuff
+#include "../common/fstypes.h"
 #include "../common/refresh.h"
 #include "../common/qfiles.h"
 
