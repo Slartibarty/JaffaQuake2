@@ -983,17 +983,14 @@ FIXME: make this buffer size safe someday
 */
 char *va (const char *format, ...)
 {
-	va_list		argptr;
-	static char	string[8][512];
-	static int	curstring = 0;
+	va_list			argptr;
+	static char		string[1024];
 
-	curstring = (curstring + 1) % 8;
+	va_start(argptr, format);
+	vsprintf(string, format, argptr);
+	va_end(argptr);
 
-	va_start (argptr, format);
-	vsnprintf (string[curstring], sizeof (string[curstring]), format, argptr);
-	va_end (argptr);
-
-	return string[curstring];
+	return string;
 }
 
 
