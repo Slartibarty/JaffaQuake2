@@ -21,6 +21,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // !!! if this is changed, the asm code must change !!!
 typedef struct
 {
@@ -123,6 +127,8 @@ void	SNDDMA_BeginPainting (void);
 
 void	SNDDMA_Submit(void);
 
+void	SNDDMA_Activate(qboolean active);
+
 //====================================================================
 
 #define	MAX_CHANNELS			32
@@ -142,12 +148,9 @@ extern	portable_samplepair_t	s_rawsamples[MAX_RAW_SAMPLES];
 
 extern cvar_t	*s_volume;
 extern cvar_t	*s_nosound;
-extern cvar_t	*s_loadas8bit;
-extern cvar_t	*s_khz;
 extern cvar_t	*s_show;
 extern cvar_t	*s_mixahead;
 extern cvar_t	*s_testsound;
-extern cvar_t	*s_primary;
 
 wavinfo_t GetWavinfo (char *name, byte *wav, int wavlength);
 
@@ -164,3 +167,7 @@ channel_t *S_PickChannel(int entnum, int entchannel);
 
 // spatializes a channel
 void S_Spatialize(channel_t *ch);
+
+#ifdef __cplusplus
+}
+#endif

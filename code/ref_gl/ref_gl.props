@@ -17,7 +17,6 @@
       <CompileAs>CompileAsCpp</CompileAs>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>gl_local.hpp</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\external;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />

@@ -23,14 +23,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //define	PARANOID			// speed sapping error checking
 
+#ifndef __cplusplus
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdarg.h>
+#else
+#include <cstdlib>
+#include <cmath>
+#include <cstring>
+#include <cctype>
+#include <cstdio>
+#include <cstdarg>
+#endif
 
 #include "../shared/engine.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "../../common/refresh.h"
 #include "video.h"
@@ -568,3 +581,7 @@ void CL_DrawInventory (void);
 // cl_pred.c
 //
 void CL_PredictMovement (void);
+
+#ifdef __cplusplus
+}
+#endif

@@ -33,6 +33,7 @@
     <ClInclude Include="client\screen.h" />
     <ClInclude Include="client\snd_local.h" />
     <ClInclude Include="client\sound.h" />
+    <ClInclude Include="client\stb_vorbis_local.h" />
     <ClInclude Include="client\video.h" />
     <ClInclude Include="server\server.h" />
     <ClInclude Include="shared\engine.h" />
@@ -44,7 +45,13 @@
     <ClCompile Include="..\common\common.c" />
     <ClCompile Include="..\common\common_win.c" />
     <ClCompile Include="..\game\m_flash.cpp" />
-    <ClCompile Include="client\cd_win.c" />
+    <ClCompile Include="client\cd_ogg.cpp" />
+    <ClCompile Include="client\cd_win.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="client\cl_cin.c" />
     <ClCompile Include="client\cl_ents.c" />
     <ClCompile Include="client\cl_fx.c" />
@@ -65,7 +72,8 @@
     <ClCompile Include="client\snd_dma.c" />
     <ClCompile Include="client\snd_mem.c" />
     <ClCompile Include="client\snd_mix.c" />
-    <ClCompile Include="client\snd_win.c" />
+    <ClCompile Include="client\snd_win.cpp" />
+    <ClCompile Include="client\stb_vorbis_local.c" />
     <ClCompile Include="client\sys_win.c" />
     <ClCompile Include="client\vid_menu_win.c" />
     <ClCompile Include="client\vid_win.c" />

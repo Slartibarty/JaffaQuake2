@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "client.h"
 #include "snd_local.h"
 
+#include "stb_vorbis_local.h"
+
 int			cache_full_cycle;
 
 /*
@@ -50,15 +52,12 @@ void ResampleSfx (sfx_t *sfx, int inrate, int inwidth, byte *data)
 		sc->loopstart = sc->loopstart / stepscale;
 
 	sc->speed = dma.speed;
-	if (s_loadas8bit->value)
-		sc->width = 1;
-	else
-		sc->width = inwidth;
+	sc->width = inwidth;
 	sc->stereo = 0;
 
 // resample / decimate to the current source rate
 
-	if (stepscale == 1 && inwidth == 1 && sc->width == 1)
+	if (stepscale == 1 && inwidth == 1)
 	{
 // fast special case
 		for (i=0 ; i<outcount ; i++)
@@ -354,4 +353,16 @@ wavinfo_t GetWavinfo (char *name, byte *wav, int wavlength)
 	
 	return info;
 }
+
+
+
+/*
+===============================================================================
+
+OGG Vorbis loading
+
+===============================================================================
+*/
+
+
 

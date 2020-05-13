@@ -73,11 +73,8 @@ int			s_beginofs;
 
 cvar_t		*s_volume;
 cvar_t		*s_testsound;
-cvar_t		*s_loadas8bit;
-cvar_t		*s_khz;
 cvar_t		*s_show;
 cvar_t		*s_mixahead;
-cvar_t		*s_primary;
 
 
 int		s_rawend;
@@ -117,20 +114,17 @@ void S_Init (void)
 {
 	cvar_t	*cv;
 
-	Com_Printf("\n------- sound initialization -------\n");
+	Com_Print("\n------- sound initialization -------\n");
 
 	cv = Cvar_Get ("s_initsound", "1", 0);
 	if (!cv->value)
-		Com_Printf ("not initializing.\n");
+		Com_Print ("not initializing.\n");
 	else
 	{
 		s_volume = Cvar_Get ("s_volume", "0.7", CVAR_ARCHIVE);
-		s_khz = Cvar_Get ("s_khz", "44", CVAR_ARCHIVE);
-		s_loadas8bit = Cvar_Get ("s_loadas8bit", "0", CVAR_ARCHIVE);
 		s_mixahead = Cvar_Get ("s_mixahead", "0.2", CVAR_ARCHIVE);
 		s_show = Cvar_Get ("s_show", "0", 0);
 		s_testsound = Cvar_Get ("s_testsound", "0", 0);
-		s_primary = Cvar_Get ("s_primary", "0", CVAR_ARCHIVE);	// win32 specific
 
 		Cmd_AddCommand("play", S_Play);
 		Cmd_AddCommand("stopsound", S_StopAllSounds);
@@ -153,7 +147,7 @@ void S_Init (void)
 		S_StopAllSounds ();
 	}
 
-	Com_Printf("------------------------------------\n");
+	Com_Print("------------------------------------\n");
 }
 
 
@@ -191,6 +185,14 @@ void S_Shutdown(void)
 	num_sfx = 0;
 }
 
+// =======================================================================
+// Activate the soundsystem
+// =======================================================================
+
+void S_Activate(qboolean active)
+{
+	SNDDMA_Activate(active);
+}
 
 // =======================================================================
 // Load a sound

@@ -261,9 +261,8 @@ LRESULT CALLBACK MainWndProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		{
 			int	fActive, fMinimized;
 
-			// KJB: Watch this for problems in fullscreen modes with Alt-tabbing.
 			fActive = LOWORD(wParam);
-			fMinimized = (BOOL) HIWORD(wParam);
+			fMinimized = HIWORD(wParam);
 
 			AppActivate( fActive != WA_INACTIVE, fMinimized);
 
@@ -338,12 +337,12 @@ LRESULT CALLBACK MainWndProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		}
 		break;
 
-	case MM_MCINOTIFY:
-		{
-			LRESULT CDAudio_MessageHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-			lRet = CDAudio_MessageHandler (hWnd, uMsg, wParam, lParam);
-		}
-		break;
+//	case MM_MCINOTIFY:
+//		{
+//			LRESULT CDAudio_MessageHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+//			lRet = CDAudio_MessageHandler (hWnd, uMsg, wParam, lParam);
+//		}
+//		break;
 
 	default:	// pass all unhandled messages to DefWindowProc
         return DefWindowProcW (hWnd, uMsg, wParam, lParam);

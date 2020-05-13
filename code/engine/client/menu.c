@@ -270,7 +270,7 @@ void M_DrawCharacter (int cx, int cy, int num)
 	re.DrawChar ( cx + ((viddef.width - 320)>>1), cy + ((viddef.height - 240)>>1), num);
 }
 
-void M_Print (int cx, int cy, char *str)
+void M_Print (int cx, int cy, const char *str)
 {
 	while (*str)
 	{
@@ -280,7 +280,7 @@ void M_Print (int cx, int cy, char *str)
 	}
 }
 
-void M_PrintWhite (int cx, int cy, char *str)
+void M_PrintWhite (int cx, int cy, const char *str)
 {
 	while (*str)
 	{
@@ -290,7 +290,7 @@ void M_PrintWhite (int cx, int cy, char *str)
 	}
 }
 
-void M_DrawPic (int x, int y, char *pic)
+void M_DrawPic (int x, int y, const char *pic)
 {
 	re.DrawPic (x + ((viddef.width - 320)>>1), y + ((viddef.height - 240)>>1), pic);
 }
@@ -1023,8 +1023,6 @@ static menulist_s		s_options_crosshair_box;
 static menuslider_s		s_options_sfxvolume_slider;
 static menulist_s		s_options_joystick_box;
 static menulist_s		s_options_cdvolume_box;
-static menulist_s		s_options_quality_list;
-static menulist_s		s_options_compatibility_list;
 static menulist_s		s_options_console_action;
 
 static void CrosshairFunc( void *unused )
@@ -1063,7 +1061,6 @@ static void ControlsSetMenuItemValues( void )
 {
 	s_options_sfxvolume_slider.curvalue		= Cvar_VariableValue( "s_volume" ) * 10;
 	s_options_cdvolume_box.curvalue 		= !Cvar_VariableValue("cd_nocd");
-	s_options_quality_list.curvalue			= !Cvar_VariableValue( "s_loadas8bit" );
 	s_options_sensitivity_slider.curvalue	= ( sensitivity->value ) * 2;
 
 	Cvar_SetValue( "cl_run", ClampCvar( 0, 1, cl_run->value ) );
@@ -1119,32 +1116,6 @@ static void ConsoleFunc( void *unused )
 
 	M_ForceMenuOff ();
 	cls.key_dest = key_console;
-}
-
-static void UpdateSoundQualityFunc( void *unused )
-{
-	if ( s_options_quality_list.curvalue )
-	{
-		Cvar_SetValue( "s_khz", 44 );
-		Cvar_SetValue( "s_loadas8bit", false );
-	}
-	else
-	{
-		Cvar_SetValue( "s_khz", 22 );
-		Cvar_SetValue( "s_loadas8bit", true );
-	}
-	
-	Cvar_SetValue( "s_primary", s_options_compatibility_list.curvalue );
-
-	M_DrawTextBox( 8, 120 - 48, 36, 3 );
-	M_Print( 16 + 16, 120 - 48 + 8,  "Restarting the sound system. This" );
-	M_Print( 16 + 16, 120 - 48 + 16, "could take up to a minute, so" );
-	M_Print( 16 + 16, 120 - 48 + 24, "please be patient." );
-
-	// the text box won't show up unless we do a buffer swap
-	re.EndFrame();
-
-	CL_Snd_Restart_f();
 }
 
 void Options_MenuInit( void )
@@ -1205,22 +1176,6 @@ void Options_MenuInit( void )
 	s_options_cdvolume_box.itemnames		= cd_music_items;
 	s_options_cdvolume_box.curvalue 		= !Cvar_VariableValue("cd_nocd");
 
-	s_options_quality_list.generic.type	= MTYPE_SPINCONTROL;
-	s_options_quality_list.generic.x		= 0;
-	s_options_quality_list.generic.y		= 20;;
-	s_options_quality_list.generic.name		= "sound quality";
-	s_options_quality_list.generic.callback = UpdateSoundQualityFunc;
-	s_options_quality_list.itemnames		= quality_items;
-	s_options_quality_list.curvalue			= !Cvar_VariableValue( "s_loadas8bit" );
-
-	s_options_compatibility_list.generic.type	= MTYPE_SPINCONTROL;
-	s_options_compatibility_list.generic.x		= 0;
-	s_options_compatibility_list.generic.y		= 30;
-	s_options_compatibility_list.generic.name	= "sound compatibility";
-	s_options_compatibility_list.generic.callback = UpdateSoundQualityFunc;
-	s_options_compatibility_list.itemnames		= compatibility_items;
-	s_options_compatibility_list.curvalue		= Cvar_VariableValue( "s_primary" );
-
 	s_options_sensitivity_slider.generic.type	= MTYPE_SLIDER;
 	s_options_sensitivity_slider.generic.x		= 0;
 	s_options_sensitivity_slider.generic.y		= 50;
@@ -1279,8 +1234,6 @@ void Options_MenuInit( void )
 
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_sfxvolume_slider );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_cdvolume_box );
-	Menu_AddItem( &s_options_menu, ( void * ) &s_options_quality_list );
-	Menu_AddItem( &s_options_menu, ( void * ) &s_options_compatibility_list );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_sensitivity_slider );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_alwaysrun_box );
 	Menu_AddItem( &s_options_menu, ( void * ) &s_options_invertmouse_box );
