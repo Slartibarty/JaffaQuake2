@@ -19,8 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 // net_win.c
 
-#include <winsock.h>
-#include <wsipx.h>
+#include <winsock2.h>
 #include "engine.h"
 
 #define	MAX_LOOPBACK	4
@@ -40,11 +39,9 @@ typedef struct
 
 cvar_t		*net_shownet;
 static cvar_t	*noudp;
-static cvar_t	*noipx;
 
 loopback_t	loopbacks[2];
 int			ip_sockets[2];
-int			ipx_sockets[2];
 
 const char *NET_ErrorString (void);
 
@@ -66,20 +63,6 @@ void NetadrToSockadr (netadr_t *a, struct sockaddr *s)
 		((struct sockaddr_in *)s)->sin_addr.s_addr = *(int *)&a->ip;
 		((struct sockaddr_in *)s)->sin_port = a->port;
 	}
-	else if (a->type == NA_IPX)
-	{
-		((struct sockaddr_ipx *)s)->sa_family = AF_IPX;
-		memcpy(((struct sockaddr_ipx *)s)->sa_netnum, &a->ipx[0], 4);
-		memcpy(((struct sockaddr_ipx *)s)->sa_nodenum, &a->ipx[4], 6);
-		((struct sockaddr_ipx *)s)->sa_socket = a->port;
-	}
-	else if (a->type == NA_BROADCAST_IPX)
-	{
-		((struct sockaddr_ipx *)s)->sa_family = AF_IPX;
-		memset(((struct sockaddr_ipx *)s)->sa_netnum, 0, 4);
-		memset(((struct sockaddr_ipx *)s)->sa_nodenum, 0xff, 6);
-		((struct sockaddr_ipx *)s)->sa_socket = a->port;
-	}
 }
 
 void SockadrToNetadr (struct sockaddr *s, netadr_t *a)
@@ -89,13 +72,6 @@ void SockadrToNetadr (struct sockaddr *s, netadr_t *a)
 		a->type = NA_IP;
 		*(int *)&a->ip = ((struct sockaddr_in *)s)->sin_addr.s_addr;
 		a->port = ((struct sockaddr_in *)s)->sin_port;
-	}
-	else if (s->sa_family == AF_IPX)
-	{
-		a->type = NA_IPX;
-		memcpy(&a->ipx[0], ((struct sockaddr_ipx *)s)->sa_netnum, 4);
-		memcpy(&a->ipx[4], ((struct sockaddr_ipx *)s)->sa_nodenum, 6);
-		a->port = ((struct sockaddr_ipx *)s)->sa_socket;
 	}
 }
 
@@ -111,13 +87,6 @@ qboolean	NET_CompareAdr (netadr_t a, netadr_t b)
 	if (a.type == NA_IP)
 	{
 		if (a.ip[0] == b.ip[0] && a.ip[1] == b.ip[1] && a.ip[2] == b.ip[2] && a.ip[3] == b.ip[3] && a.port == b.port)
-			return true;
-		return false;
-	}
-
-	if (a.type == NA_IPX)
-	{
-		if ((memcmp(a.ipx, b.ipx, 10) == 0) && a.port == b.port)
 			return true;
 		return false;
 	}
@@ -149,13 +118,6 @@ qboolean	NET_CompareBaseAdr (netadr_t a, netadr_t b)
 		return false;
 	}
 
-	if (a.type == NA_IPX)
-	{
-		if ((memcmp(a.ipx, b.ipx, 10) == 0))
-			return true;
-		return false;
-	}
-
 	// slart: assuming behaviour
 	assert (0);
 	return false;
@@ -169,8 +131,6 @@ char	*NET_AdrToString (netadr_t a)
 		Com_sprintf (s, sizeof(s), "loopback");
 	else if (a.type == NA_IP)
 		Com_sprintf (s, sizeof(s), "%i.%i.%i.%i:%i", a.ip[0], a.ip[1], a.ip[2], a.ip[3], ntohs(a.port));
-	else
-		Com_sprintf (s, sizeof(s), "%02x%02x%02x%02x:%02x%02x%02x%02x%02x%02x:%i", a.ipx[0], a.ipx[1], a.ipx[2], a.ipx[3], a.ipx[4], a.ipx[5], a.ipx[6], a.ipx[7], a.ipx[8], a.ipx[9], ntohs(a.port));
 
 	return s;
 }
@@ -187,69 +147,41 @@ idnewt:28000
 192.246.40.70:28000
 =============
 */
-#define DO(src,dest)	\
-	copy[0] = s[src];	\
-	copy[1] = s[src + 1];	\
-	sscanf (copy, "%x", &val);	\
-	((struct sockaddr_ipx *)sadr)->dest = val
-
 qboolean	NET_StringToSockaddr (const char *s, struct sockaddr *sadr)
 {
 	struct hostent	*h;
 	char	*colon;
-	int		val;
 	char	copy[128];
 	
 	memset (sadr, 0, sizeof(*sadr));
 
-	if ((strlen(s) >= 23) && (s[8] == ':') && (s[21] == ':'))	// check for an IPX address
+	((struct sockaddr_in *)sadr)->sin_family = AF_INET;
+		
+	((struct sockaddr_in *)sadr)->sin_port = 0;
+
+	strcpy (copy, s);
+	// strip off a trailing :port if present
+	for (colon = copy ; *colon ; colon++)
+		if (*colon == ':')
+		{
+			*colon = 0;
+			((struct sockaddr_in *)sadr)->sin_port = htons((short)atoi(colon+1));	
+		}
+		
+	if (copy[0] >= '0' && copy[0] <= '9')
 	{
-		((struct sockaddr_ipx *)sadr)->sa_family = AF_IPX;
-		copy[2] = 0;
-		DO(0, sa_netnum[0]);
-		DO(2, sa_netnum[1]);
-		DO(4, sa_netnum[2]);
-		DO(6, sa_netnum[3]);
-		DO(9, sa_nodenum[0]);
-		DO(11, sa_nodenum[1]);
-		DO(13, sa_nodenum[2]);
-		DO(15, sa_nodenum[3]);
-		DO(17, sa_nodenum[4]);
-		DO(19, sa_nodenum[5]);
-		sscanf (&s[22], "%u", &val);
-		((struct sockaddr_ipx *)sadr)->sa_socket = htons((unsigned short)val);
+		*(int *)&((struct sockaddr_in *)sadr)->sin_addr = inet_addr(copy);
 	}
 	else
 	{
-		((struct sockaddr_in *)sadr)->sin_family = AF_INET;
-		
-		((struct sockaddr_in *)sadr)->sin_port = 0;
-
-		strcpy (copy, s);
-		// strip off a trailing :port if present
-		for (colon = copy ; *colon ; colon++)
-			if (*colon == ':')
-			{
-				*colon = 0;
-				((struct sockaddr_in *)sadr)->sin_port = htons((short)atoi(colon+1));	
-			}
-		
-		if (copy[0] >= '0' && copy[0] <= '9')
-		{
-			*(int *)&((struct sockaddr_in *)sadr)->sin_addr = inet_addr(copy);
-		}
-		else
-		{
-			if (! (h = gethostbyname(copy)) )
-				return 0;
-			*(int *)&((struct sockaddr_in *)sadr)->sin_addr = *(int *)h->h_addr_list[0];
-		}
+		if (! (h = gethostbyname(copy)) )
+			return 0;
+		*(int *)&((struct sockaddr_in *)sadr)->sin_addr = *(int *)h->h_addr_list[0];
 	}
 	
 	return true;
 }
 
-#undef DO
 
 /*
 =============
@@ -352,8 +284,6 @@ qboolean	NET_GetPacket (netsrc_t sock, netadr_t *net_from, sizebuf_t *net_messag
 	{
 		if (protocol == 0)
 			net_socket = ip_sockets[sock];
-		else
-			net_socket = ipx_sockets[sock];
 
 		if (!net_socket)
 			continue;
@@ -424,18 +354,6 @@ void NET_SendPacket (netsrc_t sock, int length, void *data, netadr_t to)
 		if (!net_socket)
 			return;
 	}
-	else if (to.type == NA_IPX)
-	{
-		net_socket = ipx_sockets[sock];
-		if (!net_socket)
-			return;
-	}
-	else if (to.type == NA_BROADCAST_IPX)
-	{
-		net_socket = ipx_sockets[sock];
-		if (!net_socket)
-			return;
-	}
 	else
 		Com_Error (ERR_FATAL, "NET_SendPacket: bad address type");
 
@@ -451,7 +369,7 @@ void NET_SendPacket (netsrc_t sock, int length, void *data, netadr_t to)
 			return;
 
 		// some PPP links dont allow broadcasts
-		if ((err == WSAEADDRNOTAVAIL) && ((to.type == NA_BROADCAST) || (to.type == NA_BROADCAST_IPX)))
+		if ((err == WSAEADDRNOTAVAIL) && (to.type == NA_BROADCAST))
 			return;
 
 		if (dedicated->value)	// let dedicated servers continue after errors
@@ -591,105 +509,6 @@ void NET_OpenIP (void)
 
 /*
 ====================
-IPX_Socket
-====================
-*/
-int NET_IPXSocket (int port)
-{
-	int					newsocket;
-	struct sockaddr_ipx	address;
-	u_long				_true = 1;
-	int					err;
-
-	if ((newsocket = socket (PF_IPX, SOCK_DGRAM, NSPROTO_IPX)) == -1)
-	{
-		err = WSAGetLastError();
-		if (err != WSAEAFNOSUPPORT)
-			Com_Printf ("WARNING: IPX_Socket: socket: %s\n", NET_ErrorString());
-		return 0;
-	}
-
-	// make it non-blocking
-	if (ioctlsocket (newsocket, FIONBIO, &_true) == -1)
-	{
-		Com_Printf ("WARNING: IPX_Socket: ioctl FIONBIO: %s\n", NET_ErrorString());
-		return 0;
-	}
-
-	// make it broadcast capable
-	if (setsockopt(newsocket, SOL_SOCKET, SO_BROADCAST, (char *)&_true, sizeof(_true)) == -1)
-	{
-		Com_Printf ("WARNING: IPX_Socket: setsockopt SO_BROADCAST: %s\n", NET_ErrorString());
-		return 0;
-	}
-
-	address.sa_family = AF_IPX;
-	memset (address.sa_netnum, 0, 4);
-	memset (address.sa_nodenum, 0, 6);
-	if (port == PORT_ANY)
-		address.sa_socket = 0;
-	else
-		address.sa_socket = htons((short)port);
-
-	if( bind (newsocket, (void *)&address, sizeof(address)) == -1)
-	{
-		Com_Printf ("WARNING: IPX_Socket: bind: %s\n", NET_ErrorString());
-		closesocket (newsocket);
-		return 0;
-	}
-
-	return newsocket;
-}
-
-
-/*
-====================
-NET_OpenIPX
-====================
-*/
-void NET_OpenIPX (void)
-{
-	int		port;
-	int		dedicated;
-
-	dedicated = Cvar_VariableValue ("dedicated");
-
-	if (!ipx_sockets[NS_SERVER])
-	{
-		port = Cvar_Get("ipx_hostport", "0", CVAR_NOSET)->value;
-		if (!port)
-		{
-			port = Cvar_Get("hostport", "0", CVAR_NOSET)->value;
-			if (!port)
-			{
-				port = Cvar_Get("port", va("%i", PORT_SERVER), CVAR_NOSET)->value;
-			}
-		}
-		ipx_sockets[NS_SERVER] = NET_IPXSocket (port);
-	}
-
-	// dedicated servers don't need client ports
-	if (dedicated)
-		return;
-
-	if (!ipx_sockets[NS_CLIENT])
-	{
-		port = Cvar_Get("ipx_clientport", "0", CVAR_NOSET)->value;
-		if (!port)
-		{
-			port = Cvar_Get("clientport", va("%i", PORT_CLIENT), CVAR_NOSET)->value;
-			if (!port)
-				port = PORT_ANY;
-		}
-		ipx_sockets[NS_CLIENT] = NET_IPXSocket (port);
-		if (!ipx_sockets[NS_CLIENT])
-			ipx_sockets[NS_CLIENT] = NET_IPXSocket (PORT_ANY);
-	}
-}
-
-
-/*
-====================
 NET_Config
 
 A single player game will only use the loopback code
@@ -714,19 +533,12 @@ void	NET_Config (qboolean multiplayer)
 				closesocket (ip_sockets[i]);
 				ip_sockets[i] = 0;
 			}
-			if (ipx_sockets[i])
-			{
-				closesocket (ipx_sockets[i]);
-				ipx_sockets[i] = 0;
-			}
 		}
 	}
 	else
 	{	// open sockets
 		if (! noudp->value)
 			NET_OpenIP ();
-		if (! noipx->value)
-			NET_OpenIPX ();
 	}
 }
 
@@ -747,11 +559,6 @@ void NET_Sleep(int msec)
 		FD_SET(ip_sockets[NS_SERVER], &fdset); // network socket
 		i = ip_sockets[NS_SERVER];
 	}
-	if (ipx_sockets[NS_SERVER]) {
-		FD_SET(ipx_sockets[NS_SERVER], &fdset); // network socket
-		if (ipx_sockets[NS_SERVER] > i)
-			i = ipx_sockets[NS_SERVER];
-	}
 	timeout.tv_sec = msec/1000;
 	timeout.tv_usec = (msec%1000)*1000;
 	select(i+1, &fdset, NULL, NULL, &timeout);
@@ -769,20 +576,15 @@ NET_Init
 */
 void NET_Init (void)
 {
-	WORD	wVersionRequested; 
-	int		r;
+	// Winsock 2.2
+	int r = WSAStartup (MAKEWORD(2, 2), &winsockdata);
 
-	wVersionRequested = MAKEWORD(1, 1); 
+	if (r != 0)
+		Com_Error (ERR_FATAL,"Winsock2 initialization failed.");
 
-	r = WSAStartup (MAKEWORD(1, 1), &winsockdata);
-
-	if (r)
-		Com_Error (ERR_FATAL,"Winsock initialization failed.");
-
-	Com_Printf("Winsock Initialized\n");
+	Com_Print("Winsock2 Initialized\n");
 
 	noudp = Cvar_Get ("noudp", "0", CVAR_NOSET);
-	noipx = Cvar_Get ("noipx", "0", CVAR_NOSET);
 
 	net_shownet = Cvar_Get ("net_shownet", "0", 0);
 }
@@ -793,7 +595,7 @@ void NET_Init (void)
 NET_Shutdown
 ====================
 */
-void	NET_Shutdown (void)
+void NET_Shutdown (void)
 {
 	NET_Config (false);	// close sockets
 
