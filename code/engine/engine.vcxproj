@@ -72,7 +72,13 @@
     <ClCompile Include="client\snd_dma.c" />
     <ClCompile Include="client\snd_mem.c" />
     <ClCompile Include="client\snd_mix.c" />
-    <ClCompile Include="client\snd_win.cpp" />
+    <ClCompile Include="client\snd_win_dsound.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="client\snd_win_xaudio2.cpp" />
     <ClCompile Include="client\stb_vorbis_local.c" />
     <ClCompile Include="client\sys_win.c" />
     <ClCompile Include="client\vid_menu_win.c" />

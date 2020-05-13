@@ -257,7 +257,10 @@
     <ClCompile Include="client\stb_vorbis_local.c">
       <Filter>Source Files\Client</Filter>
     </ClCompile>
-    <ClCompile Include="client\snd_win.cpp">
+    <ClCompile Include="client\snd_win_xaudio2.cpp">
+      <Filter>Source Files\Client\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="client\snd_win_dsound.cpp">
       <Filter>Source Files\Client\Win32</Filter>
     </ClCompile>
   </ItemGroup>
