@@ -753,9 +753,9 @@ void CL_ParseFrame (void)
 		{
 			cls.state = ca_active;
 			cl.force_refdef = true;
-			cl.predicted_origin[0] = cl.frame.playerstate.pmove.origin[0]*0.125f;
-			cl.predicted_origin[1] = cl.frame.playerstate.pmove.origin[1]*0.125f;
-			cl.predicted_origin[2] = cl.frame.playerstate.pmove.origin[2]*0.125f;
+			cl.predicted_origin[0] = cl.frame.playerstate.pmove.origin[0];
+			cl.predicted_origin[1] = cl.frame.playerstate.pmove.origin[1];
+			cl.predicted_origin[2] = cl.frame.playerstate.pmove.origin[2];
 			VectorCopy (cl.frame.playerstate.viewangles, cl.predicted_angles);
 			if (cls.disable_servercount != cl.servercount
 				&& cl.refresh_prepped)
@@ -1443,9 +1443,9 @@ void CL_CalcViewValues (void)
 	else
 	{	// just use interpolated values
 		for (i=0 ; i<3 ; i++)
-			cl.refdef.vieworg[i] = ops->pmove.origin[i]*0.125f + ops->viewoffset[i] 
-				+ lerp * (ps->pmove.origin[i]*0.125f + ps->viewoffset[i] 
-				- (ops->pmove.origin[i]*0.125f + ops->viewoffset[i]) );
+			cl.refdef.vieworg[i] = ops->pmove.origin[i] + ops->viewoffset[i] 
+				+ lerp * (ps->pmove.origin[i] + ps->viewoffset[i] 
+				- (ops->pmove.origin[i] + ops->viewoffset[i]) );
 	}
 
 	// if not running a demo or on a locked frame, add the local angle movement

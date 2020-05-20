@@ -410,6 +410,8 @@ qboolean SV_Push (edict_t *pusher, vec3_t move, vec3_t amove)
 
 	// clamp the move to 1/8 units, so the position will
 	// be accurate for client side prediction
+	// Slart: QuakeWorld doesn't do this, disabling for now...
+#if 0
 	for (i=0 ; i<3 ; i++)
 	{
 		float	temp;
@@ -420,6 +422,7 @@ qboolean SV_Push (edict_t *pusher, vec3_t move, vec3_t amove)
 			temp -= 0.5f;
 		move[i] = 0.125f * (int)temp;
 	}
+#endif
 
 	// find the bounding box
 	for (i=0 ; i<3 ; i++)

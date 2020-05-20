@@ -1187,9 +1187,9 @@ void PutClientInServer (edict_t *ent)
 	// clear playerstate values
 	memset (&ent->client->ps, 0, sizeof(client->ps));
 
-	client->ps.pmove.origin[0] = spawn_origin[0]*8;
-	client->ps.pmove.origin[1] = spawn_origin[1]*8;
-	client->ps.pmove.origin[2] = spawn_origin[2]*8;
+	client->ps.pmove.origin[0] = spawn_origin[0];
+	client->ps.pmove.origin[1] = spawn_origin[1];
+	client->ps.pmove.origin[2] = spawn_origin[2];
 
 	if (deathmatch->value && ((int)dmflags->value & DF_FIXED_FOV))
 	{
@@ -1625,8 +1625,8 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 
 		for (i=0 ; i<3 ; i++)
 		{
-			pm.s.origin[i] = ent->s.origin[i]*8;
-			pm.s.velocity[i] = ent->velocity[i]*8;
+			pm.s.origin[i] = ent->s.origin[i];
+			pm.s.velocity[i] = ent->velocity[i];
 		}
 
 		if (memcmp(&client->old_pmove, &pm.s, sizeof(pm.s)))
@@ -1649,8 +1649,8 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 
 		for (i=0 ; i<3 ; i++)
 		{
-			ent->s.origin[i] = pm.s.origin[i]*0.125f;
-			ent->velocity[i] = pm.s.velocity[i]*0.125f;
+			ent->s.origin[i] = pm.s.origin[i];
+			ent->velocity[i] = pm.s.velocity[i];
 		}
 
 		VectorCopy (pm.mins, ent->mins);

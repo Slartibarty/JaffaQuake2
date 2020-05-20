@@ -1124,7 +1124,7 @@ qboolean	PM_GoodPosition (void)
 		return true;
 
 	for (i=0 ; i<3 ; i++)
-		origin[i] = end[i] = pm->s.origin[i]*0.125f;
+		origin[i] = end[i] = pm->s.origin[i];
 	trace = pm->trace (origin, pm->mins, pm->maxs, end);
 
 	return !trace.allsolid;
@@ -1148,7 +1148,7 @@ void PM_SnapPosition (void)
 
 	// snap velocity to eigths
 	for (i=0 ; i<3 ; i++)
-		pm->s.velocity[i] = pml.velocity[i]*8;
+		pm->s.velocity[i] = pml.velocity[i];
 
 	for (i=0 ; i<3 ; i++)
 	{
@@ -1156,8 +1156,8 @@ void PM_SnapPosition (void)
 			sign[i] = 1;
 		else 
 			sign[i] = -1;
-		pm->s.origin[i] = pml.origin[i]*8;
-		if (pm->s.origin[i]*0.125f == pml.origin[i])
+		pm->s.origin[i] = pml.origin[i];
+		if (pm->s.origin[i] == pml.origin[i])
 			sign[i] = 0;
 	}
 	VectorCopy (pm->s.origin, base);
@@ -1240,9 +1240,9 @@ void PM_InitialSnapPosition(void)
 			for ( x = 0; x < 3; x++ ) {
 				pm->s.origin[0] = base[0] + offset[ x ];
 				if (PM_GoodPosition ()) {
-					pml.origin[0] = pm->s.origin[0]*0.125f;
-					pml.origin[1] = pm->s.origin[1]*0.125f;
-					pml.origin[2] = pm->s.origin[2]*0.125f;
+					pml.origin[0] = pm->s.origin[0];
+					pml.origin[1] = pm->s.origin[1];
+					pml.origin[2] = pm->s.origin[2];
 					VectorCopy (pm->s.origin, pml.previous_origin);
 					return;
 				}
@@ -1313,13 +1313,13 @@ void Pmove (pmove_t *pmove)
 	memset (&pml, 0, sizeof(pml));
 
 	// convert origin and velocity to float values
-	pml.origin[0] = pm->s.origin[0]*0.125f;
-	pml.origin[1] = pm->s.origin[1]*0.125f;
-	pml.origin[2] = pm->s.origin[2]*0.125f;
+	pml.origin[0] = pm->s.origin[0];
+	pml.origin[1] = pm->s.origin[1];
+	pml.origin[2] = pm->s.origin[2];
 
-	pml.velocity[0] = pm->s.velocity[0]*0.125f;
-	pml.velocity[1] = pm->s.velocity[1]*0.125f;
-	pml.velocity[2] = pm->s.velocity[2]*0.125f;
+	pml.velocity[0] = pm->s.velocity[0];
+	pml.velocity[1] = pm->s.velocity[1];
+	pml.velocity[2] = pm->s.velocity[2];
 
 	// save old org in case we get stuck
 	VectorCopy (pm->s.origin, pml.previous_origin);
