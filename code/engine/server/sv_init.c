@@ -192,16 +192,17 @@ void SV_SpawnServer (char *server, char *spawnpoint, server_state_t serverstate,
 
 	// save name for levels that don't set message
 	strcpy (sv.configstrings[CS_NAME], server);
-	if (Cvar_VariableValue ("deathmatch"))
-	{
+	// Slart: This is nice
+//	if (Cvar_VariableValue ("deathmatch"))
+//	{
 		sprintf(sv.configstrings[CS_AIRACCEL], "%g", sv_airaccelerate->value);
 		pm_airaccelerate = sv_airaccelerate->value;
-	}
-	else
-	{
-		strcpy(sv.configstrings[CS_AIRACCEL], "0");
-		pm_airaccelerate = 0.0f;
-	}
+//	}
+//	else
+//	{
+//		strcpy(sv.configstrings[CS_AIRACCEL], "0");
+//		pm_airaccelerate = 0.0f;
+//	}
 
 	SZ_Init (&sv.multicast, sv.multicast_buf, sizeof(sv.multicast_buf));
 
