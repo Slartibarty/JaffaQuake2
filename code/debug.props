@@ -5,6 +5,7 @@
   <PropertyGroup>
     <_PropertySheetDisplayName>Debug</_PropertySheetDisplayName>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration" />
   <ItemDefinitionGroup>
     <Link />
   </ItemDefinitionGroup>
