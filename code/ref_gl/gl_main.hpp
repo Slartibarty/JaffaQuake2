@@ -18,8 +18,6 @@ extern glconfig_t glConfig;
 
 struct glstate_t
 {
-	float	inverse_intensity;
-
 	int		lightmap_textures;
 
 	GLuint	currenttextures[2];

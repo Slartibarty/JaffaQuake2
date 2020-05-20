@@ -385,10 +385,7 @@ void R_RenderBrushPoly (msurface_t *fa)
 
 		// warp texture, no lightmaps
 		GL_TexEnv( GL_MODULATE );
-		glColor4f( glState.inverse_intensity, 
-			        glState.inverse_intensity,
-					glState.inverse_intensity,
-					1.0f );
+		glColor4f( 1.0f, 1.0f, 1.0f, 1.0f );
 		EmitWaterPolys (fa);
 		GL_TexEnv( GL_REPLACE );
 
@@ -486,7 +483,6 @@ of alpha_surfaces will draw back to front, giving proper ordering.
 void R_DrawAlphaSurfaces (void)
 {
 	msurface_t	*s;
-	float		intens;
 
 	//
 	// go back to the world matrix
@@ -496,20 +492,16 @@ void R_DrawAlphaSurfaces (void)
 	glEnable (GL_BLEND);
 	GL_TexEnv( GL_MODULATE );
 
-	// the textures are prescaled up for a better lighting range,
-	// so scale it back down
-	intens = glState.inverse_intensity;
-
 	for (s=r_alpha_surfaces ; s ; s=s->texturechain)
 	{
 		GL_Bind(s->texinfo->image->texnum);
 		c_brush_polys++;
 		if (s->texinfo->flags & SURF_TRANS33)
-			glColor4f (intens,intens,intens,0.33f);
+			glColor4f (1.0f,1.0f,1.0f,0.33f);
 		else if (s->texinfo->flags & SURF_TRANS66)
-			glColor4f (intens,intens,intens,0.66f);
+			glColor4f (1.0f,1.0f,1.0f,0.66f);
 		else
-			glColor4f (intens,intens,intens,1.0f);
+			glColor4f (1.0f,1.0f,1.0f,1.0f);
 		if (s->flags & SURF_DRAWTURB)
 			EmitWaterPolys (s);
 		else if(s->texinfo->flags & SURF_FLOWING)			// PGM	9/16/98
