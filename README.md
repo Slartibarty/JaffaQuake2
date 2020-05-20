@@ -49,7 +49,7 @@ Ha, cake.
  
 - Cleaned up a lot of old code that was left largely unmodified Since Quake 1 (mostly OS-specific stuff).
 
-- Removed Windows joystick support, it was taking up a huge amount of room in win_input and it sucked, so it went.
+- Removed Windows joystick support, it was taking up a huge amount of room in win_input and it sucked, so it went.\
   Gain: No more dependency on winmm\
   PS: Sys_Milliseconds now uses QueryPerformanceCounter, this is weird because Quake 1 uses it, and Quake 2 uses MMTIME. hum.\
   Wonder if they did that for any specific reason. Who knows!
