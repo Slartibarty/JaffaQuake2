@@ -567,13 +567,13 @@ typedef struct
 {
 	pmtype_t	pm_type;
 
-	short		origin[3];		// 12.3
-	short		velocity[3];	// 12.3
+	vec3_t		origin;			// 12.3
+	vec3_t		velocity;		// 12.3
 	byte		pm_flags;		// ducked, jump_held, etc
 	byte		pm_time;		// each unit = 8 ms
 	short		gravity;
-	short		delta_angles[3];	// add to command angles to get view direction
-									// changed by spawns, rotating objects, and teleporters
+	vec3_t		delta_angles;	// add to command angles to get view direction
+								// changed by spawns, rotating objects, and teleporters
 } pmove_state_t;
 
 
@@ -590,7 +590,7 @@ typedef struct usercmd_s
 {
 	byte	msec;
 	byte	buttons;
-	short	angles[3];
+	vec3_t	angles;
 	short	forwardmove, sidemove, upmove;
 	byte	impulse;		// remove?
 	byte	lightlevel;		// light level the player is standing on
@@ -1160,10 +1160,6 @@ ROGUE - VERSIONS
 
 ==========================================================
 */
-
-#define	ANGLE2SHORT(x)	((int)((x)*65536/360) & 65535)
-#define	SHORT2ANGLE(x)	((x)*(360.0f/65536.0f))
-
 
 //
 // config strings are a general means of communication from

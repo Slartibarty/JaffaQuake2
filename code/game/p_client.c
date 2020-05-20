@@ -1222,7 +1222,7 @@ void PutClientInServer (edict_t *ent)
 	// set the delta angle
 	for (i=0 ; i<3 ; i++)
 	{
-		client->ps.pmove.delta_angles[i] = ANGLE2SHORT(spawn_angles[i] - client->resp.cmd_angles[i]);
+		client->ps.pmove.delta_angles[i] = spawn_angles[i] - client->resp.cmd_angles[i];
 	}
 
 	ent->s.angles[PITCH] = 0;
@@ -1323,7 +1323,7 @@ void ClientBegin (edict_t *ent)
 		// state when the game is saved, so we need to compensate
 		// with deltaangles
 		for (i=0 ; i<3 ; i++)
-			ent->client->ps.pmove.delta_angles[i] = ANGLE2SHORT(ent->client->ps.viewangles[i]);
+			ent->client->ps.pmove.delta_angles[i] = ent->client->ps.viewangles[i];
 	}
 	else
 	{
@@ -1602,9 +1602,9 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 
 	if (ent->client->chase_target) {
 
-		client->resp.cmd_angles[0] = SHORT2ANGLE(ucmd->angles[0]);
-		client->resp.cmd_angles[1] = SHORT2ANGLE(ucmd->angles[1]);
-		client->resp.cmd_angles[2] = SHORT2ANGLE(ucmd->angles[2]);
+		client->resp.cmd_angles[0] = ucmd->angles[0];
+		client->resp.cmd_angles[1] = ucmd->angles[1];
+		client->resp.cmd_angles[2] = ucmd->angles[2];
 
 	} else {
 
@@ -1656,9 +1656,9 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		VectorCopy (pm.mins, ent->mins);
 		VectorCopy (pm.maxs, ent->maxs);
 
-		client->resp.cmd_angles[0] = SHORT2ANGLE(ucmd->angles[0]);
-		client->resp.cmd_angles[1] = SHORT2ANGLE(ucmd->angles[1]);
-		client->resp.cmd_angles[2] = SHORT2ANGLE(ucmd->angles[2]);
+		client->resp.cmd_angles[0] = ucmd->angles[0];
+		client->resp.cmd_angles[1] = ucmd->angles[1];
+		client->resp.cmd_angles[2] = ucmd->angles[2];
 
 		if (ent->groundentity && !pm.groundentity && (pm.cmd.upmove >= 10) && (pm.waterlevel == 0))
 		{

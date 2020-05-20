@@ -537,16 +537,16 @@ void CL_ParsePlayerstate (frame_t *oldframe, frame_t *newframe)
 
 	if (flags & PS_M_ORIGIN)
 	{
-		state->pmove.origin[0] = MSG_ReadShort (&net_message);
-		state->pmove.origin[1] = MSG_ReadShort (&net_message);
-		state->pmove.origin[2] = MSG_ReadShort (&net_message);
+		state->pmove.origin[0] = MSG_ReadFloat (&net_message);
+		state->pmove.origin[1] = MSG_ReadFloat (&net_message);
+		state->pmove.origin[2] = MSG_ReadFloat (&net_message);
 	}
 
 	if (flags & PS_M_VELOCITY)
 	{
-		state->pmove.velocity[0] = MSG_ReadShort (&net_message);
-		state->pmove.velocity[1] = MSG_ReadShort (&net_message);
-		state->pmove.velocity[2] = MSG_ReadShort (&net_message);
+		state->pmove.velocity[0] = MSG_ReadFloat (&net_message);
+		state->pmove.velocity[1] = MSG_ReadFloat (&net_message);
+		state->pmove.velocity[2] = MSG_ReadFloat (&net_message);
 	}
 
 	if (flags & PS_M_TIME)
@@ -560,9 +560,9 @@ void CL_ParsePlayerstate (frame_t *oldframe, frame_t *newframe)
 
 	if (flags & PS_M_DELTA_ANGLES)
 	{
-		state->pmove.delta_angles[0] = MSG_ReadShort (&net_message);
-		state->pmove.delta_angles[1] = MSG_ReadShort (&net_message);
-		state->pmove.delta_angles[2] = MSG_ReadShort (&net_message);
+		state->pmove.delta_angles[0] = MSG_ReadFloat (&net_message);
+		state->pmove.delta_angles[1] = MSG_ReadFloat (&net_message);
+		state->pmove.delta_angles[2] = MSG_ReadFloat (&net_message);
 	}
 
 	if (cl.attractloop)
@@ -573,23 +573,23 @@ void CL_ParsePlayerstate (frame_t *oldframe, frame_t *newframe)
 	//
 	if (flags & PS_VIEWOFFSET)
 	{
-		state->viewoffset[0] = MSG_ReadChar (&net_message) * 0.25f;
-		state->viewoffset[1] = MSG_ReadChar (&net_message) * 0.25f;
-		state->viewoffset[2] = MSG_ReadChar (&net_message) * 0.25f;
+		state->viewoffset[0] = MSG_ReadFloat (&net_message);
+		state->viewoffset[1] = MSG_ReadFloat (&net_message);
+		state->viewoffset[2] = MSG_ReadFloat (&net_message);
 	}
 
 	if (flags & PS_VIEWANGLES)
 	{
-		state->viewangles[0] = MSG_ReadAngle16 (&net_message);
-		state->viewangles[1] = MSG_ReadAngle16 (&net_message);
-		state->viewangles[2] = MSG_ReadAngle16 (&net_message);
+		state->viewangles[0] = MSG_ReadAngle (&net_message);
+		state->viewangles[1] = MSG_ReadAngle (&net_message);
+		state->viewangles[2] = MSG_ReadAngle (&net_message);
 	}
 
 	if (flags & PS_KICKANGLES)
 	{
-		state->kick_angles[0] = MSG_ReadChar (&net_message) * 0.25f;
-		state->kick_angles[1] = MSG_ReadChar (&net_message) * 0.25f;
-		state->kick_angles[2] = MSG_ReadChar (&net_message) * 0.25f;
+		state->kick_angles[0] = MSG_ReadFloat (&net_message);
+		state->kick_angles[1] = MSG_ReadFloat (&net_message);
+		state->kick_angles[2] = MSG_ReadFloat (&net_message);
 	}
 
 	if (flags & PS_WEAPONINDEX)

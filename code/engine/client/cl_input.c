@@ -313,7 +313,7 @@ void CL_ClampPitch (void)
 {
 	float	pitch;
 
-	pitch = SHORT2ANGLE(cl.frame.playerstate.pmove.delta_angles[PITCH]);
+	pitch = cl.frame.playerstate.pmove.delta_angles[PITCH];
 	if (pitch > 180)
 		pitch -= 360;
 
@@ -360,7 +360,7 @@ void CL_FinishMove (usercmd_t *cmd)
 
 	CL_ClampPitch ();
 	for (i=0 ; i<3 ; i++)
-		cmd->angles[i] = ANGLE2SHORT(cl.viewangles[i]);
+		cmd->angles[i] = cl.viewangles[i];
 
 	cmd->impulse = in_impulse;
 	in_impulse = 0;
@@ -402,7 +402,7 @@ usercmd_t CL_CreateCmd (void)
 
 void IN_CenterView (void)
 {
-	cl.viewangles[PITCH] = -SHORT2ANGLE(cl.frame.playerstate.pmove.delta_angles[PITCH]);
+	cl.viewangles[PITCH] = -cl.frame.playerstate.pmove.delta_angles[PITCH];
 }
 
 /*

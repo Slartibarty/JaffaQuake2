@@ -1142,13 +1142,13 @@ void PM_SnapPosition (void)
 {
 	int		sign[3];
 	int		i, j, bits;
-	short	base[3];
+	vec3_t	base;
 	// try all single bits first
 	static int jitterbits[8] = {0,4,1,2,3,5,6,7};
 
 	// snap velocity to eigths
 	for (i=0 ; i<3 ; i++)
-		pm->s.velocity[i] = (int)(pml.velocity[i]*8);
+		pm->s.velocity[i] = pml.velocity[i]*8;
 
 	for (i=0 ; i<3 ; i++)
 	{
@@ -1156,7 +1156,7 @@ void PM_SnapPosition (void)
 			sign[i] = 1;
 		else 
 			sign[i] = -1;
-		pm->s.origin[i] = (int)(pml.origin[i]*8);
+		pm->s.origin[i] = pml.origin[i]*8;
 		if (pm->s.origin[i]*0.125f == pml.origin[i])
 			sign[i] = 0;
 	}
@@ -1263,12 +1263,12 @@ PM_ClampAngles
 */
 void PM_ClampAngles (void)
 {
-	short	temp;
+	float	temp;
 	int		i;
 
 	if (pm->s.pm_flags & PMF_TIME_TELEPORT)
 	{
-		pm->viewangles[YAW] = SHORT2ANGLE(pm->cmd.angles[YAW] + pm->s.delta_angles[YAW]);
+		pm->viewangles[YAW] = pm->cmd.angles[YAW] + pm->s.delta_angles[YAW];
 		pm->viewangles[PITCH] = 0;
 		pm->viewangles[ROLL] = 0;
 	}
@@ -1278,7 +1278,7 @@ void PM_ClampAngles (void)
 		for (i=0 ; i<3 ; i++)
 		{
 			temp = pm->cmd.angles[i] + pm->s.delta_angles[i];
-			pm->viewangles[i] = SHORT2ANGLE(temp);
+			pm->viewangles[i] = temp;
 		}
 
 		// don't let the player look up or down more than 90 degrees

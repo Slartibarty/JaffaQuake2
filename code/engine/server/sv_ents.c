@@ -313,16 +313,16 @@ void SV_WritePlayerstateToClient (client_frame_t *from, client_frame_t *to, size
 
 	if (pflags & PS_M_ORIGIN)
 	{
-		MSG_WriteShort (msg, ps->pmove.origin[0]);
-		MSG_WriteShort (msg, ps->pmove.origin[1]);
-		MSG_WriteShort (msg, ps->pmove.origin[2]);
+		MSG_WriteFloat (msg, ps->pmove.origin[0]);
+		MSG_WriteFloat (msg, ps->pmove.origin[1]);
+		MSG_WriteFloat (msg, ps->pmove.origin[2]);
 	}
 
 	if (pflags & PS_M_VELOCITY)
 	{
-		MSG_WriteShort (msg, ps->pmove.velocity[0]);
-		MSG_WriteShort (msg, ps->pmove.velocity[1]);
-		MSG_WriteShort (msg, ps->pmove.velocity[2]);
+		MSG_WriteFloat (msg, ps->pmove.velocity[0]);
+		MSG_WriteFloat (msg, ps->pmove.velocity[1]);
+		MSG_WriteFloat (msg, ps->pmove.velocity[2]);
 	}
 
 	if (pflags & PS_M_TIME)
@@ -336,9 +336,9 @@ void SV_WritePlayerstateToClient (client_frame_t *from, client_frame_t *to, size
 
 	if (pflags & PS_M_DELTA_ANGLES)
 	{
-		MSG_WriteShort (msg, ps->pmove.delta_angles[0]);
-		MSG_WriteShort (msg, ps->pmove.delta_angles[1]);
-		MSG_WriteShort (msg, ps->pmove.delta_angles[2]);
+		MSG_WriteFloat (msg, ps->pmove.delta_angles[0]);
+		MSG_WriteFloat (msg, ps->pmove.delta_angles[1]);
+		MSG_WriteFloat (msg, ps->pmove.delta_angles[2]);
 	}
 
 	//
@@ -346,23 +346,23 @@ void SV_WritePlayerstateToClient (client_frame_t *from, client_frame_t *to, size
 	//
 	if (pflags & PS_VIEWOFFSET)
 	{
-		MSG_WriteChar (msg, ps->viewoffset[0]*4);
-		MSG_WriteChar (msg, ps->viewoffset[1]*4);
-		MSG_WriteChar (msg, ps->viewoffset[2]*4);
+		MSG_WriteFloat (msg, ps->viewoffset[0]);
+		MSG_WriteFloat (msg, ps->viewoffset[1]);
+		MSG_WriteFloat (msg, ps->viewoffset[2]);
 	}
 
 	if (pflags & PS_VIEWANGLES)
 	{
-		MSG_WriteAngle16 (msg, ps->viewangles[0]);
-		MSG_WriteAngle16 (msg, ps->viewangles[1]);
-		MSG_WriteAngle16 (msg, ps->viewangles[2]);
+		MSG_WriteAngle (msg, ps->viewangles[0]);
+		MSG_WriteAngle (msg, ps->viewangles[1]);
+		MSG_WriteAngle (msg, ps->viewangles[2]);
 	}
 
 	if (pflags & PS_KICKANGLES)
 	{
-		MSG_WriteChar (msg, ps->kick_angles[0]*4);
-		MSG_WriteChar (msg, ps->kick_angles[1]*4);
-		MSG_WriteChar (msg, ps->kick_angles[2]*4);
+		MSG_WriteAngle (msg, ps->kick_angles[0]);
+		MSG_WriteAngle (msg, ps->kick_angles[1]);
+		MSG_WriteAngle (msg, ps->kick_angles[2]);
 	}
 
 	if (pflags & PS_WEAPONINDEX)

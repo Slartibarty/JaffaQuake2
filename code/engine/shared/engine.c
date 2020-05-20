@@ -385,24 +385,20 @@ void MSG_WriteString (sizebuf_t *sb, const char *s)
 
 void MSG_WriteCoord (sizebuf_t *sb, float f)
 {
-	MSG_WriteShort (sb, (int)(f*8));
+	MSG_WriteFloat (sb, f);
 }
 
 void MSG_WritePos (sizebuf_t *sb, vec3_t pos)
 {
-	MSG_WriteShort (sb, (int)(pos[0]*8));
-	MSG_WriteShort (sb, (int)(pos[1]*8));
-	MSG_WriteShort (sb, (int)(pos[2]*8));
+	MSG_WriteFloat (sb, pos[0]);
+	MSG_WriteFloat (sb, pos[1]);
+	MSG_WriteFloat (sb, pos[2]);
 }
 
 void MSG_WriteAngle (sizebuf_t *sb, float f)
 {
-	MSG_WriteByte (sb, (int)(f*256/360) & 255);
-}
-
-void MSG_WriteAngle16 (sizebuf_t *sb, float f)
-{
-	MSG_WriteShort (sb, ANGLE2SHORT(f));
+	MSG_WriteFloat (sb, f);
+//	MSG_WriteByte (sb, (int)(f*256/360) & 255);
 }
 
 
@@ -434,11 +430,11 @@ void MSG_WriteDeltaUsercmd (sizebuf_t *buf, usercmd_t *from, usercmd_t *cmd)
     MSG_WriteByte (buf, bits);
 
 	if (bits & CM_ANGLE1)
-		MSG_WriteShort (buf, cmd->angles[0]);
+		MSG_WriteFloat (buf, cmd->angles[0]);
 	if (bits & CM_ANGLE2)
-		MSG_WriteShort (buf, cmd->angles[1]);
+		MSG_WriteFloat (buf, cmd->angles[1]);
 	if (bits & CM_ANGLE3)
-		MSG_WriteShort (buf, cmd->angles[2]);
+		MSG_WriteFloat (buf, cmd->angles[2]);
 	
 	if (bits & CM_FORWARD)
 		MSG_WriteShort (buf, cmd->forwardmove);
@@ -834,24 +830,19 @@ char *MSG_ReadStringLine (sizebuf_t *msg_read)
 
 float MSG_ReadCoord (sizebuf_t *msg_read)
 {
-	return MSG_ReadShort(msg_read) * (1.0f/8.0f);
+	return MSG_ReadFloat(msg_read);
 }
 
 void MSG_ReadPos (sizebuf_t *msg_read, vec3_t pos)
 {
-	pos[0] = MSG_ReadShort(msg_read) * (1.0f/8.0f);
-	pos[1] = MSG_ReadShort(msg_read) * (1.0f/8.0f);
-	pos[2] = MSG_ReadShort(msg_read) * (1.0f/8.0f);
+	pos[0] = MSG_ReadFloat(msg_read);
+	pos[1] = MSG_ReadFloat(msg_read);
+	pos[2] = MSG_ReadFloat(msg_read);
 }
 
 float MSG_ReadAngle (sizebuf_t *msg_read)
 {
-	return MSG_ReadChar(msg_read) * (360.0f/256.0f);
-}
-
-float MSG_ReadAngle16 (sizebuf_t *msg_read)
-{
-	return SHORT2ANGLE(MSG_ReadShort(msg_read));
+	return MSG_ReadFloat(msg_read);
 }
 
 void MSG_ReadDeltaUsercmd (sizebuf_t *msg_read, usercmd_t *from, usercmd_t *move)
@@ -864,11 +855,11 @@ void MSG_ReadDeltaUsercmd (sizebuf_t *msg_read, usercmd_t *from, usercmd_t *move
 		
 // read current angles
 	if (bits & CM_ANGLE1)
-		move->angles[0] = MSG_ReadShort (msg_read);
+		move->angles[0] = MSG_ReadFloat (msg_read);
 	if (bits & CM_ANGLE2)
-		move->angles[1] = MSG_ReadShort (msg_read);
+		move->angles[1] = MSG_ReadFloat (msg_read);
 	if (bits & CM_ANGLE3)
-		move->angles[2] = MSG_ReadShort (msg_read);
+		move->angles[2] = MSG_ReadFloat (msg_read);
 		
 // read movement
 	if (bits & CM_FORWARD)
