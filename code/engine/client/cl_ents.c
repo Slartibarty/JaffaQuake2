@@ -587,9 +587,9 @@ void CL_ParsePlayerstate (frame_t *oldframe, frame_t *newframe)
 
 	if (flags & PS_KICKANGLES)
 	{
-		state->kick_angles[0] = MSG_ReadFloat (&net_message);
-		state->kick_angles[1] = MSG_ReadFloat (&net_message);
-		state->kick_angles[2] = MSG_ReadFloat (&net_message);
+		state->kick_angles[0] = MSG_ReadAngle (&net_message);
+		state->kick_angles[1] = MSG_ReadAngle (&net_message);
+		state->kick_angles[2] = MSG_ReadAngle (&net_message);
 	}
 
 	if (flags & PS_WEAPONINDEX)

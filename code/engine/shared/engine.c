@@ -398,7 +398,6 @@ void MSG_WritePos (sizebuf_t *sb, vec3_t pos)
 void MSG_WriteAngle (sizebuf_t *sb, float f)
 {
 	MSG_WriteFloat (sb, f);
-//	MSG_WriteByte (sb, (int)(f*256/360) & 255);
 }
 
 
