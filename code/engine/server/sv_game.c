@@ -354,22 +354,36 @@ void SV_InitGameProgs (void)
 	import.multicast = SV_Multicast;
 	import.unicast = PF_Unicast;
 
+#if NEWINTERFACE
 	import.bprint = SV_BroadcastPrint;
+#endif
 	import.bprintf = SV_BroadcastPrintf;
+#if NEWINTERFACE
 	import.dprint = Com_Print;
+#endif
 	import.dprintf = Com_Printf;
+#if NEWINTERFACE
 	import.cprint = PF_cprint;
+#endif
 	import.cprintf = PF_cprintf;
+#if NEWINTERFACE
 	import.centerprint = PF_centerprint;
+#endif
 	import.centerprintf = PF_centerprintf;
+#if NEWINTERFACE
 	import.error = PF_error;
 	import.errorf = PF_errorf;
+#else
+	import.error = PF_errorf;
+#endif
 
+#if NEWINTERFACE
 	import.FS_OpenFile = FS_OpenFile;
 	import.FS_OpenFileWrite = FS_OpenFileWrite;
 	import.FS_Read = FS_Read;
 	import.FS_Write = FS_Write;
 	import.FS_CloseFile = FS_CloseFile;
+#endif
 
 	import.linkentity = SV_LinkEdict;
 	import.unlinkentity = SV_UnlinkEdict;

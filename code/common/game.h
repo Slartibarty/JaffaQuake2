@@ -22,7 +22,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
+#define NEWINTERFACE 0
+
+#if NEWINTERFACE
 #define	GAME_API_VERSION	4
+#else
+#define	GAME_API_VERSION	3
+#endif
 
 // edict->svflags
 
@@ -104,13 +110,21 @@ struct edict_s
 typedef struct
 {
 	// special messages
+#if NEWINTERFACE
 	void	(*bprint) (int printlevel, const char *msg);
+#endif
 	void	(*bprintf) (int printlevel, const char *fmt, ...);
+#if NEWINTERFACE
 	void	(*dprint) (const char *msg);
+#endif
 	void	(*dprintf) (const char *fmt, ...);
+#if NEWINTERFACE
 	void	(*cprint) (edict_t* ent, int printlevel, const char *msg);
+#endif
 	void	(*cprintf) (edict_t *ent, int printlevel, const char *fmt, ...);
+#if NEWINTERFACE
 	void	(*centerprint) (edict_t *ent, const char *msg);
+#endif
 	void	(*centerprintf) (edict_t *ent, const char *fmt, ...);
 	void	(*sound) (edict_t *ent, int channel, int soundindex, float volume, float attenuation, float timeofs);
 	void	(*positioned_sound) (vec3_t origin, edict_t *ent, int channel, int soundinedex, float volume, float attenuation, float timeofs);
@@ -121,9 +135,14 @@ typedef struct
 	// they connect, and changes are sent to all connected clients.
 	void	(*configstring) (int num, const char *string);
 
+#if NEWINTERFACE
 	void	(*error) (const char *msg);
-	void	(*errorf) (const char *fmt, ...);
+	void	(*errorf) (const char* fmt, ...);
+#else
+	void	(*error) (const char* fmt, ...);
+#endif
 
+#if NEWINTERFACE
 	// Filesystem functions
 	int		(*FS_OpenFile) (const char* filename, fshandle_t* file);
 	void	(*FS_OpenFileWrite) (const char* filename, fshandle_t* file, fswritemode_t mode);
@@ -132,6 +151,7 @@ typedef struct
 	int		(*FS_Write) (const void* buffer, int len, fshandle_t f);
 
 	void	(*FS_CloseFile) (fshandle_t f);
+#endif
 
 	// the *index functions create configstrings and some internal server state
 	int		(*modelindex) (const char *name);
