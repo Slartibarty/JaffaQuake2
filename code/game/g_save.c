@@ -682,11 +682,11 @@ No clients are connected yet.
 */
 void ReadLevel (char *filename)
 {
-	int		entnum;
-	FILE	*f;
-	int		i;
-	void	*base;
-	edict_t	*ent;
+	int			entnum;
+	fshandle_t	f;
+	int			i;
+	void		*base;
+	edict_t		*ent;
 
 	gi.FS_OpenFile(filename, &f);
 	if (!f)
@@ -726,7 +726,7 @@ void ReadLevel (char *filename)
 	// load all the entities
 	while (1)
 	{
-		if (gi.FS_Read(&entnum, sizeof(entnum), f) != 1)
+		if (gi.FS_Read(&entnum, sizeof(entnum), f) != sizeof(entnum))
 		{
 			gi.FS_CloseFile (f);
 			gi.error ("ReadLevel: failed to read entnum");

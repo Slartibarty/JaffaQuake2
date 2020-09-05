@@ -69,6 +69,12 @@ extern filelink_t*		fs_links;
 extern searchpath_t*	fs_searchpaths;
 extern searchpath_t*	fs_base_searchpaths;	// without gamedirs
 
+qboolean FS_Mkdir_Private(const char* path);
+
+qboolean FS_CopyFile_Private(const char* src, const char* dest);
+
+qboolean FS_DeleteFile_Private(const char* filename);
+
 pack_t* FS_LoadPackFile(const char* packfile);
 
 // Things used by filesystem_OSspecific

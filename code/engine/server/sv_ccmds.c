@@ -153,70 +153,34 @@ SV_WipeSavegame
 Delete save/<XXX>/
 =====================
 */
-void SV_WipeSavegame (char *savename)
+static void SV_WipeSavegame (const char *savename)
 {
 	char	name[MAX_OSPATH];
 	char	*s;
 
 	Com_DPrintf("SV_WipeSaveGame(%s)\n", savename);
 
-	Com_sprintf (name, sizeof(name), "%s/save/%s/server.ssv", FS_Gamedir (), savename);
-	remove (name);
-	Com_sprintf (name, sizeof(name), "%s/save/%s/game.ssv", FS_Gamedir (), savename);
-	remove (name);
+	Com_sprintf (name, sizeof(name), "save/%s/server.ssv", savename);
+	FS_DeleteFile (name);
+	Com_sprintf (name, sizeof(name), "save/%s/game.ssv", savename);
+	FS_DeleteFile (name);
 
-	Com_sprintf (name, sizeof(name), "%s/save/%s/*.sav", FS_Gamedir (), savename);
-	s = Sys_FindFirst( name, 0, 0 );
+	Com_sprintf (name, sizeof(name), "save/%s/*.sav", savename);
+	s = FS_FindFirst( name, 0, 0 );
 	while (s)
 	{
-		remove (s);
-		s = Sys_FindNext( 0, 0 );
+		FS_DeleteFile (s);
+		s = FS_FindNext( 0, 0 );
 	}
-	Sys_FindClose ();
-	Com_sprintf (name, sizeof(name), "%s/save/%s/*.sv2", FS_Gamedir (), savename);
-	s = Sys_FindFirst(name, 0, 0 );
+	FS_FindClose ();
+	Com_sprintf (name, sizeof(name), "save/%s/*.sv2", savename);
+	s = FS_FindFirst(name, 0, 0 );
 	while (s)
 	{
-		remove (s);
-		s = Sys_FindNext( 0, 0 );
+		FS_DeleteFile (s);
+		s = FS_FindNext( 0, 0 );
 	}
-	Sys_FindClose ();
-}
-
-
-/*
-================
-CopyFile
-================
-*/
-void CopyFile (char *src, char *dst)
-{
-	fshandle_t	f1, f2;
-	int			l;
-	byte		buffer[0x10000];
-
-	Com_DPrintf ("CopyFile (%s, %s)\n", src, dst);
-
-	FS_OpenFile(src, &f1);
-	if (!f1)
-		return;
-	FS_OpenFileWrite(dst, &f2, fs_overwrite);
-	if (!f2)
-	{
-		FS_CloseFile(f1);
-		return;
-	}
-
-	while (1)
-	{
-		l = FS_Read(buffer, sizeof(buffer), f1);
-		if (!l)
-			break;
-		FS_Write(buffer, l, f2);
-	}
-
-	FS_CloseFile(f1);
-	FS_CloseFile(f2);
+	FS_FindClose ();
 }
 
 
@@ -239,33 +203,33 @@ void SV_CopySaveGame (char *src, char *dst)
 	Com_sprintf (name, sizeof(name), "save/%s/server.ssv", src);
 	Com_sprintf (name2, sizeof(name2), "save/%s/server.ssv", dst);
 	FS_CreatePath (name2);
-	CopyFile (name, name2);
+	FS_CopyFile (name, name2);
 
 	Com_sprintf (name, sizeof(name), "save/%s/game.ssv", src);
 	Com_sprintf (name2, sizeof(name2), "save/%s/game.ssv", dst);
-	CopyFile (name, name2);
+	FS_CopyFile (name, name2);
 
 	Com_sprintf (name, sizeof(name), "save/%s/", src);
 	len = strlen(name);
 	Com_sprintf (name, sizeof(name), "save/%s/*.sav", src);
-	found = Sys_FindFirst(name, 0, 0 );
+	found = FS_FindFirst(name, 0, 0 );
 	while (found)
 	{
 		strcpy (name+len, found+len);
 
 		Com_sprintf (name2, sizeof(name2), "save/%s/%s", dst, found+len);
-		CopyFile (name, name2);
+		FS_CopyFile (name, name2);
 
 		// change sav to sv2
 		l = strlen(name);
 		strcpy (name+l-3, "sv2");
 		l = strlen(name2);
 		strcpy (name2+l-3, "sv2");
-		CopyFile (name, name2);
+		FS_CopyFile (name, name2);
 
-		found = Sys_FindNext( 0, 0 );
+		found = FS_FindNext( 0, 0 );
 	}
-	Sys_FindClose ();
+	FS_FindClose ();
 }
 
 

@@ -10,11 +10,15 @@ QUAKE FILESYSTEM
 
 #include "../../common/fstypes.h"
 
-void		FS_Mkdir(const char* path);
+qboolean	FS_Mkdir(const char* path);
+
+qboolean	FS_CopyFile(const char* src, const char* dest);
+
+qboolean	FS_DeleteFile(const char* filename);
 
 int			FS_FileLength(fshandle_t f);
 
-void		FS_CreatePath(char* path);
+void		FS_CreatePath(const char* path);
 
 // Open a file for reading
 int			FS_OpenFile(const char* filename, fshandle_t* file);
@@ -40,3 +44,18 @@ void		FS_SetGamedir(const char* dir);
 char*		FS_NextPath(const char* prevpath);
 
 void		FS_InitFilesystem(void);
+
+// directory searching
+#define SFF_ARCH    0x01
+#define SFF_HIDDEN  0x02
+#define SFF_RDONLY  0x04
+#define SFF_SUBDIR  0x08
+#define SFF_SYSTEM  0x10
+
+/*
+** pass in an attribute mask of things you wish to REJECT
+*/
+char	*FS_FindFirst ( const char *path, uint musthave, uint canthave );
+char	*FS_FindNext ( uint musthave, uint canthave );
+void	FS_FindClose (void);
+

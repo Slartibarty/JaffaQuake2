@@ -8,6 +8,7 @@ WINDOWS QUAKE FILESYSTEM
 
 #include "engine.h"
 #include "winquake.h"
+#include <io.h>
 
 // Extern C because the rest of the engine is in C
 extern "C" {
@@ -28,15 +29,80 @@ searchpath_t*	fs_base_searchpaths;	// without gamedirs
 
 /*
 ================
+FS_Mkdir_Private
+================
+*/
+qboolean FS_Mkdir_Private(const char* path)
+{
+	return CreateDirectoryA(path, nullptr);
+}
+
+
+/*
+================
 FS_Mkdir
 ================
 */
-void FS_Mkdir(const char* path)
+qboolean FS_Mkdir(const char* path)
 {
 	char newpath[MAX_OSPATH];
 	Com_sprintf(newpath, sizeof(newpath), "%s/%s", FS_Gamedir(), path);
 
-	CreateDirectoryA(newpath, nullptr);
+	return FS_Mkdir_Private(newpath);
+}
+
+
+/*
+================
+FS_CopyFile_Private
+================
+*/
+qboolean FS_CopyFile_Private(const char* src, const char* dest)
+{
+	return CopyFileA(src, dest, FALSE);
+}
+
+
+/*
+================
+FS_CopyFile
+================
+*/
+qboolean FS_CopyFile(const char* src, const char* dest)
+{
+	char newsrc[MAX_OSPATH];
+	char newdest[MAX_OSPATH];
+
+	Com_sprintf(newsrc, "%s/%s", FS_Gamedir(), src);
+	Com_sprintf(newdest, "%s/%s", FS_Gamedir(), dest);
+
+	return FS_CopyFile_Private(newsrc, newdest);
+}
+
+
+/*
+================
+FS_DeleteFile_Private
+================
+*/
+qboolean FS_DeleteFile_Private(const char* filename)
+{
+	return DeleteFileA(filename);
+}
+
+
+/*
+================
+FS_DeleteFile
+================
+*/
+qboolean FS_DeleteFile(const char* filename)
+{
+	char newsrc[MAX_OSPATH];
+
+	Com_sprintf(newsrc, "%s/%s", FS_Gamedir(), filename);
+
+	return FS_DeleteFile_Private(filename);
 }
 
 
@@ -296,6 +362,81 @@ pack_t *FS_LoadPackFile (const char *packfile)
 
 	Com_Printf("Added packfile %s (%i files)\n", packfile, numPackFiles);
 	return pack;
+}
+
+
+// Find functions
+
+//===============================================================================
+
+static char		findbase[MAX_OSPATH];
+static char		findpath[MAX_OSPATH];
+static intptr_t	findhandle;
+
+static bool CompareAttributes( uint found, uint musthave, uint canthave )
+{
+	if ( ( found & _A_RDONLY ) && ( canthave & SFF_RDONLY ) )
+		return false;
+	if ( ( found & _A_HIDDEN ) && ( canthave & SFF_HIDDEN ) )
+		return false;
+	if ( ( found & _A_SYSTEM ) && ( canthave & SFF_SYSTEM ) )
+		return false;
+	if ( ( found & _A_SUBDIR ) && ( canthave & SFF_SUBDIR ) )
+		return false;
+	if ( ( found & _A_ARCH ) && ( canthave & SFF_ARCH ) )
+		return false;
+
+	if ( ( musthave & SFF_RDONLY ) && !( found & _A_RDONLY ) )
+		return false;
+	if ( ( musthave & SFF_HIDDEN ) && !( found & _A_HIDDEN ) )
+		return false;
+	if ( ( musthave & SFF_SYSTEM ) && !( found & _A_SYSTEM ) )
+		return false;
+	if ( ( musthave & SFF_SUBDIR ) && !( found & _A_SUBDIR ) )
+		return false;
+	if ( ( musthave & SFF_ARCH ) && !( found & _A_ARCH ) )
+		return false;
+
+	return true;
+}
+
+char *FS_FindFirst ( const char *path, uint musthave, uint canthave )
+{
+	struct _finddata_t findinfo;
+
+	assert(findhandle == 0);
+
+	Com_sprintf (findbase, "%s/%s", FS_Gamedir(), path);
+	COM_FilePath (findbase, findbase);
+	findhandle = _findfirst (path, &findinfo);
+	if (findhandle == -1)
+		return NULL;
+	if ( !CompareAttributes( findinfo.attrib, musthave, canthave ) )
+		return NULL;
+	Com_sprintf (findpath, sizeof(findpath), "%s/%s", findbase, findinfo.name);
+	return findpath;
+}
+
+char *FS_FindNext ( uint musthave, uint canthave )
+{
+	struct _finddata_t findinfo;
+
+	if (findhandle == -1)
+		return NULL;
+	if (_findnext (findhandle, &findinfo) == -1)
+		return NULL;
+	if ( !CompareAttributes( findinfo.attrib, musthave, canthave ) )
+		return NULL;
+
+	Com_sprintf (findpath, sizeof(findpath), "%s/%s", findbase, findinfo.name);
+	return findpath;
+}
+
+void FS_FindClose (void)
+{
+	if (findhandle != -1)
+		_findclose (findhandle);
+	findhandle = 0;
 }
 
 }

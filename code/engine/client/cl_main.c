@@ -1534,7 +1534,7 @@ void CL_WriteConfiguration (void)
 	if (cls.state == ca_uninitialized)
 		return;
 
-	FS_OpenFileWrite("config.txt", &f, fs_overwrite);
+	FS_OpenFileWrite("config.cfg", &f, fs_overwrite);
 	if (!f)
 	{
 		Com_Print ("Couldn't write config.cfg.\n");

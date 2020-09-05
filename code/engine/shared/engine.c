@@ -211,6 +211,7 @@ void Com_Error (int code, const char *msg)
 		SV_Shutdown (va("Server crashed: %s\n", msg), false);
 		CL_Drop ();
 		longjmp (abortframe, -1);
+
 	}
 	else // ERR_FATAL
 	{

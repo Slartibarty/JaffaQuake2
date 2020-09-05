@@ -23,16 +23,18 @@ FS_CreatePath
 Creates any directories needed to store the given filename
 ============
 */
-void FS_CreatePath(char* path)
+void FS_CreatePath(const char* path)
 {
-	char* ofs;
+	char npath[MAX_OSPATH];
 
-	for (ofs = path + 1; *ofs; ofs++)
+	Com_sprintf(npath, "%s/%s", FS_Gamedir(), path);
+
+	for (char *ofs = npath + 1; *ofs; ofs++)
 	{
 		if (*ofs == '/')
 		{	// create the directory
 			*ofs = '\0';
-			FS_Mkdir(path);
+			FS_Mkdir_Private(npath);
 			*ofs = '/';
 		}
 	}
@@ -226,17 +228,9 @@ FS_ExecAutoexec
 */
 void FS_ExecAutoexec(void)
 {
-	const char* dir;
-	char name[MAX_QPATH];
-
-	dir = Cvar_VariableString("gamedir");
-	if (*dir)
-		Com_sprintf(name, sizeof(name), "%s/%s/autoexec.cfg", fs_basedir->string, dir);
-	else
-		Com_sprintf(name, sizeof(name), "%s/%s/autoexec.cfg", fs_basedir->string, BASEDIRNAME);
-	if (Sys_FindFirst(name, 0, SFF_SUBDIR | SFF_HIDDEN | SFF_SYSTEM))
+	if (FS_FindFirst("autoexec.cfg", 0, SFF_SUBDIR | SFF_HIDDEN | SFF_SYSTEM))
 		Cbuf_AddText("exec autoexec.cfg\n");
-	Sys_FindClose();
+	FS_FindClose();
 }
 
 
@@ -290,20 +284,20 @@ void FS_Link_f(void)
 /*
 ** FS_ListFiles
 */
-char** FS_ListFiles(char* findname, int* numfiles, unsigned musthave, unsigned canthave)
+char** FS_ListFiles(const char* findname, int* numfiles, uint musthave, uint canthave)
 {
 	char* s;
 	int nfiles = 0;
 	char** list = 0;
 
-	s = Sys_FindFirst(findname, musthave, canthave);
+	s = FS_FindFirst(findname, musthave, canthave);
 	while (s)
 	{
 		if (s[strlen(s) - 1] != '.')
 			nfiles++;
-		s = Sys_FindNext(musthave, canthave);
+		s = FS_FindNext(musthave, canthave);
 	}
-	Sys_FindClose();
+	FS_FindClose();
 
 	if (!nfiles)
 		return NULL;
@@ -314,22 +308,22 @@ char** FS_ListFiles(char* findname, int* numfiles, unsigned musthave, unsigned c
 	list = (char**)Z_Malloc(sizeof(char*) * nfiles);
 	memset(list, 0, sizeof(char*) * nfiles);
 
-	s = Sys_FindFirst(findname, musthave, canthave);
+	s = FS_FindFirst(findname, musthave, canthave);
 	nfiles = 0;
 	while (s)
 	{
 		if (s[strlen(s) - 1] != '.')
 		{
-			// SlartTodo: MEMORY LEAK! strdup result is NEVER freed
+			// Slart: These are freed in menu.c
 			list[nfiles] = Q_strdup(s);
 #ifdef _WIN32
 			Q_strlwr(list[nfiles]);
 #endif
 			nfiles++;
 		}
-		s = Sys_FindNext(musthave, canthave);
+		s = FS_FindNext(musthave, canthave);
 	}
-	Sys_FindClose();
+	FS_FindClose();
 
 	return list;
 }

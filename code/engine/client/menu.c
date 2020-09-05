@@ -18,9 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 #include "client.h"
-#ifdef _WIN32
-#include <io.h> // _filelength
-#endif
 #include "qmenu.h"
 
 static int	m_main_cursor;
@@ -1125,15 +1122,6 @@ void Options_MenuInit( void )
 		"disabled",
 		"enabled",
 		0
-	};
-	static const char *quality_items[] =
-	{
-		"low", "high", 0
-	};
-
-	static const char *compatibility_items[] =
-	{
-		"max compatibility", "max performance", 0
 	};
 
 	static const char *yesno_names[] =
@@ -3298,7 +3286,7 @@ static qboolean PlayerConfig_ScanDirectories( void )
 	char *path = NULL;
 	int i;
 
-	extern char **FS_ListFiles( char *, int *, unsigned, unsigned );
+	extern char** FS_ListFiles(const char* findname, int* numfiles, uint musthave, uint canthave);
 
 	s_numplayermodels = 0;
 
@@ -3339,14 +3327,14 @@ static qboolean PlayerConfig_ScanDirectories( void )
 		// verify the existence of tris.md2
 		strcpy( scratch, dirnames[i] );
 		strcat( scratch, "/tris.md2" );
-		if ( !Sys_FindFirst( scratch, 0, SFF_SUBDIR | SFF_HIDDEN | SFF_SYSTEM ) )
+		if ( !FS_FindFirst( scratch, 0, SFF_SUBDIR | SFF_HIDDEN | SFF_SYSTEM ) )
 		{
 			free( dirnames[i] );
 			dirnames[i] = 0;
-			Sys_FindClose();
+			FS_FindClose();
 			continue;
 		}
-		Sys_FindClose();
+		FS_FindClose();
 
 		// verify the existence of at least one pcx skin
 		strcpy( scratch, dirnames[i] );
