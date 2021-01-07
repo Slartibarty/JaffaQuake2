@@ -1,3 +1,8 @@
+# THIS REPOSITORY IS OBSOLETE!!!
+It has been superceded by the Quake2Game repository.
+
+# YOU HAVE BEEN WARNED!
+
 # JaffaQuake2
 Ha, cake.
 
